@@ -27,9 +27,17 @@ export default {
                 "spin-360": "spin-360 1s linear infinite",
             },
             colors: {
-                customBg1: "rgb(246, 249, 251)",
+                primary: "#0284c7",
             },
         },
     },
-    plugins: [],
+    plugins: [
+        plugin(function ({ addUtilities }) {
+            addUtilities({
+                ".no-tap-highlight": {
+                    "-webkit-tap-highlight-color": "transparent",
+                },
+            });
+        }),
+    ],
 };
