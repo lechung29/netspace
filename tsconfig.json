@@ -1,6 +1,7 @@
 {
   "files": [],
   "compileOnSave": false,
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
       "baseUrl": "./",
@@ -28,5 +29,6 @@
       "noUnusedParameters": true,
       "experimentalDecorators": true,
       "downlevelIteration": true
-  }
+  },
+
 }

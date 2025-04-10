@@ -1,2 +1,5 @@
-export * from "./title-resolver"
+/** @format */
+
+export * from "./title-resolver";
 export * from "./main";
+export * from "./auth";
