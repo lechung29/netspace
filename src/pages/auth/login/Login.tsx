@@ -1,88 +1,173 @@
 /** @format */
 
-import { Link } from "@/components";
+import styled from "styled-components";
 import React from "react";
 
 const Login = () => {
+    const [theme, setTheme] = React.useState<"light" | "dark">(() => {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    });
+
+    React.useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const handleChange = (e: MediaQueryListEvent) => {
+            setTheme(e.matches ? "dark" : "light");
+        };
+
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
+
+    React.useEffect(() => {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+    }, [theme]);
+
+
     return (
-        <div className="w-full lg:max-w-sm mx-auto !space-y-9">
-            {/* Logo */}
-            <div className="logo-stagger-item w-full h-auto">
-                <img src="/src/assets/gradientlogo.png" alt="logo" className="w-36 h-12 absolute top-10 left-10 dark:hidden object-cover" />
-                <img src="/src/assets/whitelogo.png" alt="logo" className="w-36 h-12 absolute top-10 left-10 hidden dark:!block object-cover" />
+        <StyledWrapper>
+            <div className="auth-form-container">
+                <img src="/src/assets/gradientlogo.png" alt="logo" className="w-[140px] h-[100px] object-cover mx-auto" />
+                <form className="form">
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            autoComplete="off" 
+                            name="email" 
+                            id="email" 
+                            type="text" 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="textarea">How Can We Help You?</label>
+                        <textarea required cols={50} rows={10} id="textarea" name="textarea" defaultValue={""} />
+                    </div>
+                    <button type="submit" className="form-submit-btn">
+                        Submit
+                    </button>
+                </form>
             </div>
-            {/* Title */}
-            <div className="input-stagger-item w-full h-auto">
-                <h2 className="text-2xl dark:text-white font-semibold mb-1.5"> Sign in to your account </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-normal">
-                    If you haven’t signed up yet <Link to="/sign-up" className="text-blue-600 hover:opacity-85" displayText="Register here!"/>
-                </p>
-            </div>
-            <div className="space-y-7 text-sm text-black font-medium dark:text-white">
-                {/* <div className="grid grid-cols-2 gap-4 gap-y-7 ">
-                    <AnimationTextField
-                        className="common-validation-input input-stagger-item"
-                        errorMessageClassName="input-stagger-item"
-                        placeholder="Email"
-                        name="email"
-                        disabled={isDisabledInput}
-                        value={email}
-                        errorMessage={emailError}
-                        leftSection={<BiSolidUser style={defaultIconStyle} />}
-                        rightSection={
-                            <ClearIconButton
-                                className="g-clear-input-icon-button"
-                                radius="full"
-                                variant="ghost"
-                                showClear={!!email}
-                                onClick={() =>
-                                    setState({
-                                        email: "",
-                                        emailError: "",
-                                    })
-                                }
-                            />
-                        }
-                        onChange={onChangeInput}
-                    />
-                    <AnimationTextField
-                        className="common-validation-input input-stagger-item"
-                        errorMessageClassName="input-stagger-item"
-                        placeholder="Password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        disabled={isDisabledInput}
-                        value={password}
-                        errorMessage={passwordError}
-                        leftSection={<IoKeySharp style={defaultIconStyle} />}
-                        rightSection={
-                            <PasswordIconButton
-                                className="g-clear-input-icon-button"
-                                radius="full"
-                                variant="ghost"
-                                showPassword={showPassword}
-                                onShowPasswordChange={(showPassword) => {
-                                    setState({ showPassword });
-                                }}
-                            />
-                        }
-                        onChange={onChangeInput}
-                    />
-                    <AnimationSubmitButton
-                        className="input-stagger-item"
-                        displayText="Sign In"
-                        disabled={isDisabledSubmit}
-                        isLoading={isLoading}
-                        onClick={handleSubmit}
-                        buttonHeight={40}
-                        childrenProps={{
-                            withLoadingText: true,
-                        }}
-                    />
-                </div> */}
-            </div>
-        </div>
+        </StyledWrapper>
     );
 };
+
+const StyledWrapper = styled.div`
+    .auth-form-container {
+        max-width: 400px;
+        margin: 0 20px;
+        background: linear-gradient(#212121, #212121) padding-box, linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box;
+        border: 2px solid transparent;
+        padding: 32px 24px;
+        font-size: 14px;
+        font-family: inherit;
+        color: white;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        box-sizing: border-box;
+        border-radius: 16px;
+        background-size: 200% 100%;
+        animation: gradient 5s ease infinite;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .auth-form-container button:active {
+        scale: 0.95;
+    }
+
+    .auth-form-container .form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .auth-form-container .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .auth-form-container .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #717171;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .auth-form-container .form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: #ccc;
+        font-family: inherit;
+        background-color: transparent;
+        border: 1px solid #414141;
+    }
+
+    .auth-form-container .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 8px;
+        resize: none;
+        color: #fff;
+        height: 96px;
+        border: 1px solid #414141;
+        background-color: transparent;
+        font-family: inherit;
+    }
+
+    .auth-form-container .form-group input::placeholder {
+        opacity: 0.5;
+    }
+
+    .auth-form-container .form-group input:focus {
+        outline: none;
+        border-color: #e81cff;
+    }
+
+    .auth-form-container .form-group textarea:focus {
+        outline: none;
+        border-color: #e81cff;
+    }
+
+    .auth-form-container .form-submit-btn {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        align-self: flex-start;
+        font-family: inherit;
+        color: #717171;
+        font-weight: 600;
+        width: 40%;
+        background: #313131;
+        border: 1px solid #414141;
+        padding: 12px 16px;
+        font-size: inherit;
+        gap: 8px;
+        margin-top: 8px;
+        cursor: pointer;
+        border-radius: 6px;
+    }
+
+    .auth-form-container .form-submit-btn:hover {
+        background-color: #fff;
+        border-color: #fff;
+    }
+`;
 
 export { Login };
