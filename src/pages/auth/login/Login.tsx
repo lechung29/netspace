@@ -1,9 +1,12 @@
 /** @format */
+import React, { useCallback } from "react";
+import { Button, Label, Link, TextField } from "@/components";
+import { Checkbox, CheckboxProps, Divider } from 'antd';
+import { FaFacebook } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
-import styled from "styled-components";
-import React from "react";
-
-const Login = () => {
+const Login: React.FunctionComponent = () => {
     const [theme, setTheme] = React.useState<"light" | "dark">(() => {
         return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     });
@@ -23,151 +26,93 @@ const Login = () => {
         document.documentElement.classList.toggle("dark", theme === "dark");
     }, [theme]);
 
+    const getImageSrc = useCallback(() => {
+        return `/src/assets/${theme === "dark" ? "white" : "gradient"}logo.png`
+    }, [theme])
+
+    const onChange: CheckboxProps['onChange'] = (e) => {
+        console.log(`checked = ${e.target.checked}`);
+    };
 
     return (
-        <StyledWrapper>
-            <div className="auth-form-container">
-                <img src="/src/assets/gradientlogo.png" alt="logo" className="w-[140px] h-[100px] object-cover mx-auto" />
-                <form className="form">
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            autoComplete="off" 
-                            name="email" 
-                            id="email" 
-                            type="text" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="textarea">How Can We Help You?</label>
-                        <textarea required cols={50} rows={10} id="textarea" name="textarea" defaultValue={""} />
-                    </div>
-                    <button type="submit" className="form-submit-btn">
-                        Submit
-                    </button>
-                </form>
+        <div className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 h-auto max-w-[450px] w-full">
+            <img src={getImageSrc()} alt="net_space_logo" className="w-40 !h-20 self-start object-cover"/>
+            <div className="text-2xl font-semibold w-full !mb-1.5 !mt-3 dark:text-white">Sign in to your account</div>
+            <p className="w-full text-sm font-normal text-gray-700 dark:text-gray-400">
+                If you haven’t signed up yet.{" "}
+                <Link to="/sign-up" displayText="Register here!" className="!text-blue-600 dark:!text-blue-400" />
+            </p>
+            <div className="!my-10 w-full flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-2">
+                    <Label
+                        aria-label="email address" 
+                        htmlFor="email" 
+                        className="font-medium"
+                        displayText="Email address"
+                    />
+                    <TextField 
+                        id="email" 
+                        placeholder="@Your email"
+                        size="large"
+                        errorMessage="Email is required"
+                        hideErrorMessage
+                    />
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                    <Label
+                        aria-label="password" 
+                        htmlFor="password" 
+                        className="font-medium"
+                        displayText="Password"
+                    />
+                    <TextField 
+                        id="password" 
+                        placeholder="Password"
+                        size="large"
+                        errorMessage="Password is required"
+                        hideErrorMessage
+                    />
+                </div>
+                <div className="w-full flex flex-row items-center justify-between">
+                    <Checkbox 
+                        className="!text-sm font-normal dark:!text-white !text-gray-700"
+                        onChange={onChange}
+                    >
+                        Remember me
+                    </Checkbox>
+                    <Link 
+                        to="/sign-up" 
+                        displayText="Forget password?" 
+                        className="!text-blue-600 dark:!text-blue-400 text-sm font-normal" 
+                    />
+                </div>
+                <div className="w-full flex flex-row items-center justify-center">
+                    <Button 
+                        className="w-full " 
+                        displayText="Sign In"
+                    />
+                </div>
+                <Divider className="!text-sm font-normal !my-2 dark:!border-gray-200 !border-gray-500 dark:!text-white !text-black">Or continue with</Divider>
+                <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <Button 
+                        className="min-w-25 sm:flex-1 w-full"
+                        displayText="Facebook"
+                        icon={<FaFacebook />} 
+                    />
+                    <Button 
+                        className="min-w-25 sm:flex-1 w-full"
+                        displayText="Twitter"
+                        icon={<FaTwitter />}
+                    />
+                    <Button 
+                        className="min-w-25 sm:flex-1 w-full !bg-black"
+                        displayText="Github"
+                        icon={<FaGithub />}
+                    />
+                </div>
             </div>
-        </StyledWrapper>
+        </div>
     );
 };
-
-const StyledWrapper = styled.div`
-    .auth-form-container {
-        max-width: 400px;
-        margin: 0 20px;
-        background: linear-gradient(#212121, #212121) padding-box, linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box;
-        border: 2px solid transparent;
-        padding: 32px 24px;
-        font-size: 14px;
-        font-family: inherit;
-        color: white;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 20px;
-        box-sizing: border-box;
-        border-radius: 16px;
-        background-size: 200% 100%;
-        animation: gradient 5s ease infinite;
-    }
-
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-
-    .auth-form-container button:active {
-        scale: 0.95;
-    }
-
-    .auth-form-container .form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .auth-form-container .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .auth-form-container .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: #717171;
-        font-weight: 600;
-        font-size: 13px;
-    }
-
-    .auth-form-container .form-group input {
-        width: 100%;
-        padding: 12px 16px;
-        border-radius: 8px;
-        color: #ccc;
-        font-family: inherit;
-        background-color: transparent;
-        border: 1px solid #414141;
-    }
-
-    .auth-form-container .form-group textarea {
-        width: 100%;
-        padding: 12px 16px;
-        border-radius: 8px;
-        resize: none;
-        color: #fff;
-        height: 96px;
-        border: 1px solid #414141;
-        background-color: transparent;
-        font-family: inherit;
-    }
-
-    .auth-form-container .form-group input::placeholder {
-        opacity: 0.5;
-    }
-
-    .auth-form-container .form-group input:focus {
-        outline: none;
-        border-color: #e81cff;
-    }
-
-    .auth-form-container .form-group textarea:focus {
-        outline: none;
-        border-color: #e81cff;
-    }
-
-    .auth-form-container .form-submit-btn {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        align-self: flex-start;
-        font-family: inherit;
-        color: #717171;
-        font-weight: 600;
-        width: 40%;
-        background: #313131;
-        border: 1px solid #414141;
-        padding: 12px 16px;
-        font-size: inherit;
-        gap: 8px;
-        margin-top: 8px;
-        cursor: pointer;
-        border-radius: 6px;
-    }
-
-    .auth-form-container .form-submit-btn:hover {
-        background-color: #fff;
-        border-color: #fff;
-    }
-`;
 
 export { Login };
