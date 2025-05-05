@@ -18,17 +18,17 @@ const AuthMethods: React.FunctionComponent<AuthMethodsProps> = ({animationClassN
         {
             name: "Facebook",
             icon: <FaFacebook />,
-            className: "min-w-24 flex-1 hover:!opacity-90",
+            className: "min-w-24 !flex-1 hover:!opacity-90",
         },
         {
             name: "Twitter",
             icon: <FaTwitter />,
-            className: "min-w-24 flex-1 hover:!opacity-90",
+            className: "min-w-24 !flex-1 hover:!opacity-90",
         },
         {
             name: "Github",
             icon: <FaGithub />,
-            className: "min-w-24 flex-1 !bg-black hover:!opacity-80",
+            className: "min-w-24 !flex-1 !bg-black hover:!opacity-80",
         },
     ]
     return <Fragment>
@@ -48,6 +48,8 @@ const AuthMethods: React.FunctionComponent<AuthMethodsProps> = ({animationClassN
                 >
                     <Button 
                         {...method}
+                        shape="round"
+                        size="large"
                         displayText={method.name}
                     />
                 </motion.div>
