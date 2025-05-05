@@ -3,6 +3,7 @@
 import React from "react";
 import { Button as AntdButton, ButtonProps } from "antd";
 import { classNames } from "@/utils";
+import "./Button.scss"
 
 export interface IButtonProps extends Omit<ButtonProps, "type" | "loading" | "onClick" > {
     displayText?: string;
@@ -37,7 +38,7 @@ const Button: React.FunctionComponent<IButtonProps> = (props) => {
     return <AntdButton
         {...rest}
         type="primary"
-        className={classNames("!bg-[#0284c7] text-white !text-[13px] !shadow-none", className)}
+        className={classNames("!bg-[#0284c7] !flex !items-center !justify-center disabled:!text-white text-white !text-[13px] !shadow-none hover:!opacity-90 disabled:hover:!opacity-60", className)}
         iconPosition={iconPosition}
         onClick={handleClick}
         loading={isLoading}

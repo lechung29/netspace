@@ -1,17 +1,49 @@
 /** @format */
 import React, { useCallback } from "react";
 import { AuthMethods, AuthMethodsMobile, Button, Label, Link, TextField } from "@/components";
-import { Checkbox, CheckboxProps } from 'antd';
-import { useMaxWidth } from "@/utils";
+import { Checkbox, CheckboxChangeEvent } from 'antd';
+import { delayTime, mapUserInfoFromDataToState, useMaxWidth } from "@/utils";
 import { motion, stagger, useAnimate } from "framer-motion";
+import { useImmerState } from "@/hooks";
+import { validateSignIn } from "./utils/validation";
+import { AuthService } from "@/services";
+import { IResponseStatus } from "@/types";
+import { login, useAppDispatch } from "@/redux-store";
+import { setNotification } from "@/redux-store/reducers/notifications";
+import { useNavigate } from "react-router-dom";
+
+export interface LoginState {
+    email: string;
+    password: string;
+    emailError: string;
+    passwordError: string;
+    showPassword: boolean;
+    isDisabled: boolean;
+}
+
+const initialState: LoginState = {
+    email: "",
+    password: "",
+    emailError: "",
+    passwordError: "",
+    showPassword: false,
+    isDisabled: false,
+}
 
 const Login: React.FunctionComponent = () => {
-    const [theme, setTheme] = React.useState<"light" | "dark">(() => {
-        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    });
-
-    const isMobile = useMaxWidth(400)
+    const [loginState, setLoginState] =  useImmerState<LoginState>(initialState)
+    const { 
+        email, 
+        password, 
+        emailError, 
+        passwordError, 
+        showPassword,
+        isDisabled 
+    } = loginState;
+    const isMobile = useMaxWidth(450)
     const [scope, animate] = useAnimate<HTMLDivElement>();
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         if (scope.current) {
@@ -45,27 +77,54 @@ const Login: React.FunctionComponent = () => {
         }
     }, [scope]);
 
-    React.useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-        const handleChange = (e: MediaQueryListEvent) => {
-            setTheme(e.matches ? "dark" : "light");
-        };
-
-        mediaQuery.addEventListener("change", handleChange);
-        return () => mediaQuery.removeEventListener("change", handleChange);
-    }, []);
-
-    React.useEffect(() => {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-    }, [theme]);
-
     const getImageSrc = useCallback(() => {
-        return `/src/assets/${theme === "dark" ? "white" : "gradient"}logo.png`
-    }, [theme])
+        return `/src/assets/${true ? "white" : "gradient"}logo.png`
+    }, [])
 
-    const onChange: CheckboxProps['onChange'] = (e) => {
-        console.log(`checked = ${e.target.checked}`);
+    const onChangeInput = (value: string, event: React.ChangeEvent<HTMLInputElement>) => {
+        setLoginState((draft) => {
+            draft[event.target.name] = value;
+            draft[event.target.name + "Error"] = "";
+        });
+    };
+
+    const onChange = (e: CheckboxChangeEvent): void => {
+        setLoginState({ showPassword: e.target.checked });
+    };
+
+    const handleSubmit = async (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.preventDefault();
+        setLoginState({ isDisabled: true, emailError: "", passwordError: "" });
+        const { errorField, errorMessage } = validateSignIn(email, password);
+        if (errorField) {
+            await delayTime(1500).then(() => {
+                setLoginState((draft) => {
+                    draft[errorField + "Error"] = errorMessage;
+                    draft.isDisabled = false;
+                });
+                dispatch(setNotification({
+                    type: "error",
+                    message: errorMessage,
+                }))
+            });
+        } else {
+            const [data] = await Promise.all([AuthService.loginUser({ email, password }), delayTime(1500)]);
+            if (data) {
+                if (data.status === IResponseStatus.Error) {
+                    setLoginState({ [`${data?.fieldError?.fieldName}Error`]: data?.fieldError?.errorMessage, isDisabled: false });
+                    dispatch(setNotification({
+                        type: "error",
+                        message: data?.fieldError?.errorMessage,
+                    }))
+                } else {
+                    dispatch(login(mapUserInfoFromDataToState(data.data)));
+                    setLoginState({ isDisabled: false });
+                    await delayTime(2000).then(() => {
+                        navigate("/");
+                    });
+                }
+            }
+        }
     };
 
     return (
@@ -86,10 +145,14 @@ const Login: React.FunctionComponent = () => {
                     />
                     <TextField 
                         id="email" 
-                        placeholder="@Your email"
+                        name="email"
+                        placeholder="example@domain.com"
                         size="large"
-                        errorMessage="Email is required"
+                        value={email}
+                        errorMessage={emailError}
                         hideErrorMessage
+                        disabled={isDisabled}
+                        onChange={onChangeInput}
                     />
                 </div>
                 <div className="input-stagger-item w-full flex flex-col gap-2">
@@ -101,18 +164,25 @@ const Login: React.FunctionComponent = () => {
                     />
                     <TextField 
                         id="password" 
-                        placeholder="Password"
+                        name="password"
+                        placeholder="Must be at least 8 characters"
                         size="large"
-                        errorMessage="Password is required"
+                        value={password}
+                        errorMessage={passwordError}
+                        type={showPassword ? "text" : "password"}
                         hideErrorMessage
+                        disabled={isDisabled}
+                        onChange={onChangeInput}
                     />
                 </div>
                 <div className="w-full flex flex-row items-center justify-between">
                     <Checkbox 
                         className="input-stagger-item !text-sm font-normal dark:!text-white !text-gray-700"
+                        checked={showPassword}
+                        defaultChecked={false}
                         onChange={onChange}
                     >
-                        Remember me
+                        Show password
                     </Checkbox>
                     <Link 
                         to="/sign-up" 
@@ -131,11 +201,16 @@ const Login: React.FunctionComponent = () => {
                     }}
                 >
                     <Button 
-                        className="w-full hover:!opacity-90" 
+                        className="w-full" 
                         displayText="Sign In"
+                        size="large"
+                        onClick={handleSubmit}
                     />
                 </motion.div>
-                {isMobile ? <AuthMethodsMobile animationClassName="input-stagger-item" /> : <AuthMethods animationClassName="input-stagger-item"/>}
+                {isMobile 
+                    ? <AuthMethodsMobile animationClassName="input-stagger-item" /> 
+                    : <AuthMethods animationClassName="input-stagger-item"/>
+                }
             </div>
         </div>
     );

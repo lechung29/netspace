@@ -6,7 +6,9 @@ import { createLogger } from "redux-logger";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
 import { useDispatch, useSelector } from "react-redux";
-import UserSlice from "../reducers/users/userSlice"
+import UserSlice from "../reducers/users/userSlice";
+import NotificationSlice from "../reducers/notifications/notificationSlice";
+import ThemeSlice from "../reducers/themes/themeSlice";
 
 const persistConfig: any = {
     key: "root",
@@ -16,9 +18,9 @@ const persistConfig: any = {
 };
 
 const rootReducer = combineReducers({
-    // panel: PanelSlice,
-    // notificationBar: NotificationBarSlice,
     user: UserSlice,
+    theme: ThemeSlice,
+    notification: NotificationSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

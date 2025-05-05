@@ -4,8 +4,23 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthLayout, MainLayout, TitleResolver } from "./layouts";
 import { ProtectedRoute } from "./components";
 import { Login } from "./pages";
+import React from "react";
+import { setTheme, useAppDispatch } from "./redux-store";
 
 function App() {
+    const dispatch = useAppDispatch()
+
+    React.useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const handleChange = (e: MediaQueryListEvent) => {
+            dispatch(setTheme(e.matches ? "dark" : "light"))
+        };
+
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
+        
     return (
         <BrowserRouter>
             <Routes>

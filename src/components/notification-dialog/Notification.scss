@@ -1,0 +1,29 @@
+
+.g-notification-dialog {
+    .ant-modal-content {
+        background-color: white;
+        color: black;
+    }
+}
+
+.g-notification-dark-dialog {
+    .ant-modal-content {
+        background-color: #17233e;
+        color: white;
+
+        .ant-modal-close {
+            color: white;
+            &:hover {
+                background: #263453;
+            }
+        }
+
+        .ant-modal-header {
+            background-color: transparent;
+            
+            .ant-modal-title {
+                color: white;
+            }
+        }
+    }
+}
