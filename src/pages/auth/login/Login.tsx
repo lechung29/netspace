@@ -1,15 +1,15 @@
 /** @format */
 import React, { useCallback } from "react";
-import { Button, Label, Link, TextField } from "@/components";
+import { AuthMethods, AuthMethodsMobile, Button, Label, Link, TextField } from "@/components";
 import { Checkbox, CheckboxProps, Divider } from 'antd';
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
+import { useMaxWidth } from "@/utils";
 
 const Login: React.FunctionComponent = () => {
     const [theme, setTheme] = React.useState<"light" | "dark">(() => {
         return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     });
+
+    const isMobile = useMaxWidth(400)
 
     React.useEffect(() => {
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -93,23 +93,7 @@ const Login: React.FunctionComponent = () => {
                     />
                 </div>
                 <Divider className="!text-sm font-normal !my-2 dark:!border-gray-200 !border-gray-500 dark:!text-white !text-black">Or continue with</Divider>
-                <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <Button 
-                        className="min-w-25 sm:flex-1 w-full"
-                        displayText="Facebook"
-                        icon={<FaFacebook />} 
-                    />
-                    <Button 
-                        className="min-w-25 sm:flex-1 w-full"
-                        displayText="Twitter"
-                        icon={<FaTwitter />}
-                    />
-                    <Button 
-                        className="min-w-25 sm:flex-1 w-full !bg-black"
-                        displayText="Github"
-                        icon={<FaGithub />}
-                    />
-                </div>
+                {isMobile ? <AuthMethodsMobile /> : <AuthMethods />}
             </div>
         </div>
     );
