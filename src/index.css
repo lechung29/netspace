@@ -10,5 +10,5 @@
     box-sizing: border-box;
     font-family: "Inter", system-ui, sans-serif;
     font-optical-sizing: auto;  
-    /* letter-spacing: 0.25px; */
+    letter-spacing: 0.5px;
 } 
