@@ -1,8 +1,9 @@
 /** @format */
 import React, { useCallback } from "react";
 import { AuthMethods, AuthMethodsMobile, Button, Label, Link, TextField } from "@/components";
-import { Checkbox, CheckboxProps, Divider } from 'antd';
+import { Checkbox, CheckboxProps } from 'antd';
 import { useMaxWidth } from "@/utils";
+import { motion, stagger, useAnimate } from "framer-motion";
 
 const Login: React.FunctionComponent = () => {
     const [theme, setTheme] = React.useState<"light" | "dark">(() => {
@@ -10,6 +11,39 @@ const Login: React.FunctionComponent = () => {
     });
 
     const isMobile = useMaxWidth(400)
+    const [scope, animate] = useAnimate<HTMLDivElement>();
+
+    React.useEffect(() => {
+        if (scope.current) {
+            animate(
+                scope.current.querySelectorAll(".logo-stagger-item"),
+                {
+                    opacity: [0, 1],
+                },
+                {
+                    delay: 0.25,
+                    duration: 0.25,
+                    type: "spring",
+                    ease: "easeIn",
+                    stiffness: 80,
+                }
+            );
+
+            animate(
+                scope.current.querySelectorAll(".input-stagger-item"),
+                {
+                    opacity: [0, 1],
+                    y: [-5, 0],
+                },
+                {
+                    delay: stagger(0.2, { startDelay: 0.25 }),
+                    duration: 1,
+                    type: "spring",
+                    stiffness: 80,
+                }
+            );
+        }
+    }, [scope]);
 
     React.useEffect(() => {
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -35,15 +69,15 @@ const Login: React.FunctionComponent = () => {
     };
 
     return (
-        <div className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 h-auto max-w-[450px] w-full">
-            <img src={getImageSrc()} alt="net_space_logo" className="w-40 !h-20 self-start object-cover"/>
-            <div className="text-2xl font-semibold w-full !mb-1.5 !mt-3 dark:text-white">Sign in to your account</div>
-            <p className="w-full text-sm font-normal text-gray-700 dark:text-gray-400">
+        <div ref={scope} className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 h-full max-w-[450px] w-full">
+            <img src={getImageSrc()} alt="net_space_logo" className="logo-stagger-item w-40 !h-20 self-start object-cover"/>
+            <div className="input-stagger-item text-2xl font-semibold w-full !mb-1.5 !mt-3 dark:text-white">Sign in to your account</div>
+            <p className="input-stagger-item w-full text-sm font-normal text-gray-700 dark:text-gray-400">
                 If you haven’t signed up yet.{" "}
                 <Link to="/sign-up" displayText="Register here!" className="!text-blue-600 dark:!text-blue-400" />
             </p>
             <div className="!my-10 w-full flex flex-col gap-4">
-                <div className="w-full flex flex-col gap-2">
+                <div className="input-stagger-item w-full flex flex-col gap-2">
                     <Label
                         aria-label="email address" 
                         htmlFor="email" 
@@ -58,7 +92,7 @@ const Login: React.FunctionComponent = () => {
                         hideErrorMessage
                     />
                 </div>
-                <div className="w-full flex flex-col gap-2">
+                <div className="input-stagger-item w-full flex flex-col gap-2">
                     <Label
                         aria-label="password" 
                         htmlFor="password" 
@@ -75,7 +109,7 @@ const Login: React.FunctionComponent = () => {
                 </div>
                 <div className="w-full flex flex-row items-center justify-between">
                     <Checkbox 
-                        className="!text-sm font-normal dark:!text-white !text-gray-700"
+                        className="input-stagger-item !text-sm font-normal dark:!text-white !text-gray-700"
                         onChange={onChange}
                     >
                         Remember me
@@ -83,17 +117,25 @@ const Login: React.FunctionComponent = () => {
                     <Link 
                         to="/sign-up" 
                         displayText="Forget password?" 
-                        className="!text-blue-600 dark:!text-blue-400 text-sm font-normal" 
+                        className="input-stagger-item !text-blue-600 dark:!text-blue-400 text-sm font-normal" 
                     />
                 </div>
-                <div className="w-full flex flex-row items-center justify-center">
+                <motion.div 
+                    className="input-stagger-item w-full flex flex-row items-center justify-center"
+                    whileHover={{
+                        scale: 1.025,
+                        transition: {
+                            type: "spring",
+                            stiffness: 500,
+                        }
+                    }}
+                >
                     <Button 
-                        className="w-full " 
+                        className="w-full hover:!opacity-90" 
                         displayText="Sign In"
                     />
-                </div>
-                <Divider className="!text-sm font-normal !my-2 dark:!border-gray-200 !border-gray-500 dark:!text-white !text-black">Or continue with</Divider>
-                {isMobile ? <AuthMethodsMobile /> : <AuthMethods />}
+                </motion.div>
+                {isMobile ? <AuthMethodsMobile animationClassName="input-stagger-item" /> : <AuthMethods animationClassName="input-stagger-item"/>}
             </div>
         </div>
     );
