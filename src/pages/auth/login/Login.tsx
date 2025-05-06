@@ -1,14 +1,14 @@
 /** @format */
-import React, { useCallback } from "react";
+import React from "react";
 import { AuthMethods, AuthMethodsMobile, Button, Label, Link, TextField } from "@/components";
 import { Checkbox, CheckboxChangeEvent } from 'antd';
-import { delayTime, mapUserInfoFromDataToState, useMaxWidth } from "@/utils";
+import { delayTime, getLogoImageSrc, mapUserInfoFromDataToState, useMaxWidth } from "@/utils";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { useImmerState } from "@/hooks";
 import { validateSignIn } from "./utils/validation";
 import { AuthService } from "@/services";
 import { IResponseStatus } from "@/types";
-import { login, useAppDispatch } from "@/redux-store";
+import { login, themeState, useAppDispatch, useAppSelector } from "@/redux-store";
 import { setNotification } from "@/redux-store/reducers/notifications";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +19,7 @@ export interface LoginState {
     passwordError: string;
     showPassword: boolean;
     isDisabled: boolean;
+    isLoading: boolean;
 }
 
 const initialState: LoginState = {
@@ -28,9 +29,11 @@ const initialState: LoginState = {
     passwordError: "",
     showPassword: false,
     isDisabled: false,
+    isLoading: false,
 }
 
 const Login: React.FunctionComponent = () => {
+    const { theme } = useAppSelector(themeState)
     const [loginState, setLoginState] =  useImmerState<LoginState>(initialState)
     const { 
         email, 
@@ -38,10 +41,11 @@ const Login: React.FunctionComponent = () => {
         emailError, 
         passwordError, 
         showPassword,
-        isDisabled 
+        isDisabled,
+        isLoading 
     } = loginState;
+    const [scope, animate] = useAnimate<HTMLFormElement>();
     const isMobile = useMaxWidth(450)
-    const [scope, animate] = useAnimate<HTMLDivElement>();
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -77,10 +81,6 @@ const Login: React.FunctionComponent = () => {
         }
     }, [scope]);
 
-    const getImageSrc = useCallback(() => {
-        return `/src/assets/${true ? "white" : "gradient"}logo.png`
-    }, [])
-
     const onChangeInput = (value: string, event: React.ChangeEvent<HTMLInputElement>) => {
         setLoginState((draft) => {
             draft[event.target.name] = value;
@@ -92,33 +92,32 @@ const Login: React.FunctionComponent = () => {
         setLoginState({ showPassword: e.target.checked });
     };
 
-    const handleSubmit = async (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
-        setLoginState({ isDisabled: true, emailError: "", passwordError: "" });
+        setLoginState({ isDisabled: true, isLoading: true, emailError: "", passwordError: "" });
         const { errorField, errorMessage } = validateSignIn(email, password);
         if (errorField) {
-            await delayTime(1500).then(() => {
-                setLoginState((draft) => {
-                    draft[errorField + "Error"] = errorMessage;
-                    draft.isDisabled = false;
-                });
-                dispatch(setNotification({
-                    type: "error",
-                    message: errorMessage,
-                }))
+            setLoginState((draft) => {
+                draft[errorField + "Error"] = errorMessage;
+                draft.isDisabled = false;
+                draft.isLoading = false;
             });
+            dispatch(setNotification({
+                type: "error",
+                message: errorMessage,
+            }))
         } else {
             const [data] = await Promise.all([AuthService.loginUser({ email, password }), delayTime(1500)]);
             if (data) {
                 if (data.status === IResponseStatus.Error) {
-                    setLoginState({ [`${data?.fieldError?.fieldName}Error`]: data?.fieldError?.errorMessage, isDisabled: false });
+                    setLoginState({ [`${data?.fieldError?.fieldName}Error`]: data?.fieldError?.errorMessage, isDisabled: false, isLoading: false});
                     dispatch(setNotification({
                         type: "error",
                         message: data?.fieldError?.errorMessage,
                     }))
                 } else {
                     dispatch(login(mapUserInfoFromDataToState(data.data)));
-                    setLoginState({ isDisabled: false });
+                    setLoginState({ isDisabled: false, isLoading: false });
                     await delayTime(2000).then(() => {
                         navigate("/");
                     });
@@ -128,12 +127,16 @@ const Login: React.FunctionComponent = () => {
     };
 
     return (
-        <div ref={scope} className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 h-full max-w-[450px] w-full">
-            <img src={getImageSrc()} alt="net_space_logo" className="logo-stagger-item w-40 !h-20 self-start object-cover"/>
+        <form 
+            ref={scope} 
+            className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 h-full max-w-[450px] w-full"
+            onSubmit={handleSubmit}
+        >
+            <img src={getLogoImageSrc(theme)} alt="net_space_logo" className="logo-stagger-item w-40 !h-20 self-start object-cover"/>
             <div className="input-stagger-item text-2xl font-semibold w-full !mb-1.5 !mt-3 dark:text-white">Sign in to your account</div>
             <p className="input-stagger-item w-full text-sm font-normal text-gray-700 dark:text-gray-400">
                 If you haven’t signed up yet.{" "}
-                <Link to="/sign-up" displayText="Register here!" className="!text-blue-600 dark:!text-blue-400" />
+                <Link to="/sign-up" displayText="Register here!" withUnderline/>
             </p>
             <div className="!my-10 w-full flex flex-col gap-4">
                 <div className="input-stagger-item w-full flex flex-col gap-2">
@@ -177,7 +180,7 @@ const Login: React.FunctionComponent = () => {
                 </div>
                 <div className="w-full flex flex-row items-center justify-between">
                     <Checkbox 
-                        className="input-stagger-item !text-sm font-normal dark:!text-white !text-gray-700"
+                        className="input-stagger-item !text-[13px] font-normal dark:!text-white !text-gray-700"
                         checked={showPassword}
                         defaultChecked={false}
                         onChange={onChange}
@@ -187,7 +190,8 @@ const Login: React.FunctionComponent = () => {
                     <Link 
                         to="/sign-up" 
                         displayText="Forget password?" 
-                        className="input-stagger-item !text-blue-600 dark:!text-blue-400 text-sm font-normal" 
+                        className="input-stagger-item" 
+                        withUnderline={true}
                     />
                 </div>
                 <motion.div 
@@ -204,7 +208,8 @@ const Login: React.FunctionComponent = () => {
                         className="w-full" 
                         displayText="Sign In"
                         size="large"
-                        onClick={handleSubmit}
+                        htmlType="submit"
+                        isLoading={isLoading}
                     />
                 </motion.div>
                 {isMobile 
@@ -212,7 +217,7 @@ const Login: React.FunctionComponent = () => {
                     : <AuthMethods animationClassName="input-stagger-item"/>
                 }
             </div>
-        </div>
+        </form>
     );
 };
 
