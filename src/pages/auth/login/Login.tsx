@@ -1,7 +1,6 @@
 /** @format */
 import React from "react";
-import { AuthMethods, AuthMethodsMobile, Button, Label, Link, TextField } from "@/components";
-import { Checkbox, CheckboxChangeEvent } from 'antd';
+import { AuthMethods, AuthMethodsMobile, Button, Checkbox, Label, Link, TextField } from "@/components";
 import { delayTime, getLogoImageSrc, mapUserInfoFromDataToState, useMaxWidth } from "@/utils";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { useImmerState } from "@/hooks";
@@ -88,10 +87,6 @@ const Login: React.FunctionComponent = () => {
         });
     };
 
-    const onChange = (e: CheckboxChangeEvent): void => {
-        setLoginState({ showPassword: e.target.checked });
-    };
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         setLoginState({ isDisabled: true, isLoading: true, emailError: "", passwordError: "" });
@@ -129,7 +124,7 @@ const Login: React.FunctionComponent = () => {
     return (
         <form 
             ref={scope} 
-            className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 h-full max-w-[450px] w-full"
+            className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 min-h-full max-w-[450px] w-full"
             onSubmit={handleSubmit}
         >
             <img src={getLogoImageSrc(theme)} alt="net_space_logo" className="logo-stagger-item w-40 !h-20 self-start object-cover"/>
@@ -168,7 +163,7 @@ const Login: React.FunctionComponent = () => {
                     <TextField 
                         id="password" 
                         name="password"
-                        placeholder="Must be at least 8 characters"
+                        placeholder="********"
                         size="large"
                         value={password}
                         errorMessage={passwordError}
@@ -180,22 +175,22 @@ const Login: React.FunctionComponent = () => {
                 </div>
                 <div className="w-full flex flex-row items-center justify-between">
                     <Checkbox 
-                        className="input-stagger-item !text-[13px] font-normal dark:!text-white !text-gray-700"
+                        id="showPassword"
+                        className="input-stagger-item"
+                        displayText="Show password"
                         checked={showPassword}
                         defaultChecked={false}
-                        onChange={onChange}
-                    >
-                        Show password
-                    </Checkbox>
+                        onChangeValue={(value) => setLoginState({ showPassword: value})}
+                    />
                     <Link 
                         to="/sign-up" 
-                        displayText="Forget password?" 
+                        displayText="Forgot password?" 
                         className="input-stagger-item" 
                         withUnderline={true}
                     />
                 </div>
                 <motion.div 
-                    className="input-stagger-item w-full flex flex-row items-center justify-center"
+                    className="input-stagger-item"
                     whileHover={{
                         scale: 1.025,
                         transition: {

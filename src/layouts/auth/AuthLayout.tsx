@@ -1,11 +1,12 @@
 /** @format */
-import NotificationDialog from "@/components/notification-dialog/NotificationDialog";
+
+import { NotificationDialog } from "@/components";
 import React from "react";
 import { Outlet } from "react-router-dom";
 const AuthLayout: React.FunctionComponent = () => {
     return (
-        <section className="sm:flex dark:bg-[#0f172a] h-screen w-screen overflow-auto">
-            <div className="h-full w-full p-10 flex items-center justify-center">
+        <section className="sm:flex dark:bg-[#0f172a] min-h-screen w-full">
+            <div className="w-full p-10 flex items-center justify-center overflow-auto">
                 <Outlet />
             </div>
             <NotificationDialog />

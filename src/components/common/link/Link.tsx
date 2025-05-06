@@ -13,7 +13,7 @@ const LinkView: React.FunctionComponent<ILinkProps> = (props) => {
     const { displayText, className, withUnderline, ...rest } = props;
     return <Link 
         {...rest} 
-        className={classNames("!text-blue-600 dark:!text-blue-400 text-[13px] font-normal", { "hover:!underline": withUnderline }, className)}
+        className={classNames("!text-blue-600 dark:!text-blue-400 select-none text-[13px] font-normal", { "hover:!underline": withUnderline }, className)}
     >
         {displayText || props.children}
     </Link>;
