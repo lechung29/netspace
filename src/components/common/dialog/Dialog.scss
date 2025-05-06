@@ -1,0 +1,47 @@
+/** @format */
+
+.g-dialog {
+    .ant-modal-content {
+        background-color: white;
+        color: black;
+
+        .ant-modal-header {
+            margin-bottom: 1rem;
+        }
+
+        .ant-modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+}
+
+.g-dark-dialog {
+    .ant-modal-content {
+        background-color: #17233e;
+        color: white;
+
+        .ant-modal-close {
+            color: white;
+            &:hover {
+                background: #263453;
+            }
+        }
+
+        .ant-modal-header {
+            background-color: transparent;
+            margin-bottom: 1rem;
+
+            .ant-modal-title {
+                color: white;
+            }
+        }
+
+        .ant-modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+}
