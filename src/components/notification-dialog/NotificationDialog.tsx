@@ -14,7 +14,7 @@ import { IconType } from "react-icons/lib";
 import { classNames } from "@/utils";
 
 const NotificationDialog: React.FunctionComponent = () => {
-    const { isOpen, message, type } = useAppSelector(notificationState);
+    const { isOpen, message, type, onConfirm } = useAppSelector(notificationState);
     const { theme } = useAppSelector(themeState);
     const dispatch = useAppDispatch();
 
@@ -59,11 +59,26 @@ const NotificationDialog: React.FunctionComponent = () => {
     }
 
     const renderFooter = (): React.ReactNode => {
-        return (
-            <div className="flex items-center justify-end">
-                <Button displayText="Got It" onClick={onClose} />
-            </div>
-        );
+        return <div className="!mt-5 flex items-center justify-end gap-3">
+            {onConfirm 
+                ? <>
+                    <Button 
+                        type="default"
+                        displayText="Cancel"
+                        onClick={onClose}
+                    />
+                    <Button 
+                        displayText="Continue"
+                        onClick={() => {
+                            return onConfirm().then(() => onClose())
+                        }}
+                    />
+                </> : <Button 
+                    displayText="Got It"
+                    onClick={onClose} 
+                />
+            }
+        </div>
     }
 
     return (
@@ -83,4 +98,4 @@ const NotificationDialog: React.FunctionComponent = () => {
     );
 };
 
-export default NotificationDialog;
+export { NotificationDialog }

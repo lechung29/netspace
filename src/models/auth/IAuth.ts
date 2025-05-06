@@ -6,5 +6,6 @@ export interface ILoginPayload {
 }
 
 export interface IRegisterPayload extends ILoginPayload {
-    displayName: string;
+    firstName: string;
+    lastName: string;
 }

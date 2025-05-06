@@ -36,14 +36,12 @@ const TextField: React.FunctionComponent<ITextInputProps> = (props) => {
                 className={classNames(
                     "placeholder:!text-gray-800 !px-4 dark:placeholder:!text-gray-400 placeholder:!text-[13px] dark:!text-white !text-sm !border-[1.5px] !outline-none dark:!bg-[#1b2335] !bg-white !shadow-none",
                     errorMessage
-                      ? "!border-red-600 dark:!border-red-400"
-                      : "dark:hover:!border-white hover:!border-gray-800 dark:focus:!border-white focus:!border-gray-800 dark:disabled:!border-gray-500 disabled:!border-gray-300",
+                        ? "!border-red-600 dark:!border-red-400"
+                        : "dark:hover:!border-white hover:!border-gray-800 dark:focus:!border-white focus:!border-gray-800 dark:disabled:!border-gray-500 disabled:!border-gray-300",
                     className
-                  )}
+                )}
             />
-            {!hideErrorMessage && errorMessage && <span className="text-red-600 dark:text-red-400 text-[12.5px] font-normal">
-                {errorMessage}
-            </span>}
+            {!hideErrorMessage && errorMessage && <span className="text-red-600 dark:text-red-400 text-[12.5px] font-normal">{errorMessage}</span>}
         </div>
     );
 };

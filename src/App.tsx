@@ -3,7 +3,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthLayout, MainLayout, TitleResolver } from "./layouts";
 import { ProtectedRoute } from "./components";
-import { Login } from "./pages";
+import { Login, SignUp } from "./pages";
 import React from "react";
 import { setTheme, useAppDispatch } from "./redux-store";
 
@@ -40,7 +40,7 @@ function App() {
                     </Route>
                     <Route element={<AuthLayout />}>
                         <Route path="login" element={<Login />} />
-                        {/* <Route path="sign-up" element={<SignUp />} /> */}
+                        <Route path="sign-up" element={<SignUp />} />
                     </Route>
                     <Route path="*" element={<div className="text-[orange]">Page not found</div>} />
                 </Route>
