@@ -1,6 +1,6 @@
 /** @format */
-import React from "react";
-import { AuthMethods, AuthMethodsMobile, Button, Checkbox, Label, Link, PasswordStrong, TextField } from "@/components";
+import React, { JSX } from "react";
+import { AuthMethods, AuthMethodsMobile, Button, Checkbox, Dialog, Label, Link, PasswordStrong, TextField } from "@/components";
 import { delayTime, getLogoImageSrc, useMaxWidth } from "@/utils";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { useImmerState } from "@/hooks";
@@ -10,6 +10,7 @@ import { themeState, useAppDispatch, useAppSelector } from "@/redux-store";
 import { setNotification } from "@/redux-store/reducers/notifications";
 import { useNavigate } from "react-router-dom";
 import { checkPasswordStrength, mediumMessage, PasswordStrongValue, validateSignUp, weakMessage } from "./utils/validation";
+import { MdWarningAmber } from "react-icons/md";
 
 export interface SignUpState {
     firstName: string;
@@ -17,8 +18,8 @@ export interface SignUpState {
     email: string;
     password: string;
     confirmPassword: string;
-    firstNameError?: string;
-    lastNameError?: string;
+    firstNameError: string;
+    lastNameError: string;
     emailError: string;
     passwordError: string;
     confirmPasswordError: string;
@@ -27,6 +28,9 @@ export interface SignUpState {
     isLoading: boolean;
     agreeTerm: boolean;
     passwordStrength: PasswordStrongValue;
+    isOpenWarningDialog: boolean;
+    isConfirmLoading: boolean;
+    warningMessage: string | JSX.Element;
 }
 
 const initialState: SignUpState = {
@@ -35,6 +39,8 @@ const initialState: SignUpState = {
     email: "",
     password: "",
     confirmPassword: "",
+    firstNameError: "",
+    lastNameError: "",
     emailError: "",
     passwordError: "",
     confirmPasswordError: "",
@@ -43,6 +49,9 @@ const initialState: SignUpState = {
     isLoading: false,
     agreeTerm: false,
     passwordStrength: PasswordStrongValue.None,
+    isOpenWarningDialog: false,
+    isConfirmLoading: false,
+    warningMessage: ""
 };
 
 const SignUp: React.FunctionComponent = () => {
@@ -64,6 +73,9 @@ const SignUp: React.FunctionComponent = () => {
         isLoading,
         agreeTerm,
         passwordStrength,
+        isOpenWarningDialog,
+        isConfirmLoading,
+        warningMessage
     } = signUpState;
     const [scope, animate] = useAnimate<HTMLFormElement>();
     const isMobile = useMaxWidth(450);
@@ -116,6 +128,11 @@ const SignUp: React.FunctionComponent = () => {
     }, [password]);
 
     const registerUser = async (): Promise<void> => {
+        if (isOpenWarningDialog) {
+            setSignUpState({
+                isConfirmLoading: true
+            })
+        }
         const [data] = await Promise.all([AuthService.registerUser({ firstName, lastName, email, password }), delayTime(1500)]);
             if (data) {
                 if (data.status === IResponseStatus.Error) {
@@ -127,8 +144,7 @@ const SignUp: React.FunctionComponent = () => {
                         })
                     );
                 } else {
-                    setSignUpState({ isDisabled: false, isLoading: false });
-                    
+                    setSignUpState({ isDisabled: false, isLoading: false, isConfirmLoading: false, isOpenWarningDialog: false });
                     await delayTime(2000).then(() => {
                         navigate("/login");
                     });
@@ -155,14 +171,12 @@ const SignUp: React.FunctionComponent = () => {
         } else {
             if ([PasswordStrongValue.Weak, PasswordStrongValue.Medium].includes(passwordStrength)) {
                 const warningMessage = passwordStrength === PasswordStrongValue.Weak ? weakMessage : mediumMessage
-                setSignUpState({ isLoading: false })
-                dispatch(
-                    setNotification({
-                        type: "warning",
-                        message: warningMessage,
-                        onConfirm: registerUser
-                    })
-                );
+                setSignUpState({ 
+                    isLoading: false,
+                    isDisabled: false,
+                    isOpenWarningDialog: true,
+                    warningMessage
+                })
             } else {
                 await registerUser()
             }
@@ -173,11 +187,24 @@ const SignUp: React.FunctionComponent = () => {
         return !agreeTerm || isDisabled;
     }, [isDisabled, agreeTerm]);
 
+    const handleClickTermOfUse = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        e.preventDefault()
+    }
+
     const onRenderTermLabel = React.useCallback(() => {
         return (
-            <p>Agree our <span className="!text-blue-600 dark:!text-blue-400 select-none hover:underline">Term of use</span></p>
+            <p>Agree our <span onClick={handleClickTermOfUse} className="!text-blue-600 dark:!text-blue-400 select-none hover:underline">Term of use</span></p>
         );
     }, []);
+
+    const onRenderWarningDialogLabel = React.useMemo(() => {
+        return <div className="flex items-center gap-2">
+            <MdWarningAmber className={"text-xl dark:text-yellow-400 text-yellow-600"} />
+            <span className={"font-semibold dark:text-yellow-400 text-yellow-600"}>Warning</span>
+        </div>
+    }, [])
+
 
     return (
         <form ref={scope} className="auth-form flex flex-col items-start justify-center !p-10 !mx-5 min-h-full max-w-[450px] w-full" onSubmit={handleSubmit}>
@@ -331,6 +358,14 @@ const SignUp: React.FunctionComponent = () => {
                     : <AuthMethods animationClassName="input-stagger-item" 
                 />}
             </div>
+            <Dialog
+                title={onRenderWarningDialogLabel}
+                open={isOpenWarningDialog}
+                onConfirm={registerUser}
+                confirmLoading={isConfirmLoading}
+                onCancel={() => setSignUpState({ isOpenWarningDialog: false })}
+                onRenderContent={<p>{warningMessage}</p>}
+            />
         </form>
     );
 };

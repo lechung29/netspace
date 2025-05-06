@@ -3,7 +3,7 @@
 import React, { Fragment } from "react";
 import { Button } from "../common";
 import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { classNames } from "@/utils";
 import { Divider } from "antd";
@@ -21,9 +21,9 @@ const AuthMethods: React.FunctionComponent<AuthMethodsProps> = ({animationClassN
             className: "min-w-24 !flex-1 hover:!opacity-90",
         },
         {
-            name: "Twitter",
-            icon: <FaTwitter />,
-            className: "min-w-24 !flex-1 hover:!opacity-90",
+            name: "Google",
+            icon: <FaGoogle />,
+            className: "min-w-24 !flex-1 !bg-[#e4405f] hover:!opacity-90",
         },
         {
             name: "Github",

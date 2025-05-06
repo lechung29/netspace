@@ -6,14 +6,12 @@ import { INotification } from "@/types";
 
 export interface INotificationState extends INotification {
     isOpen: boolean;
-    onConfirm?: () => Promise<void>
 }
 
 const initialState: INotificationState = {
     isOpen: false,
     type: undefined,
     message: "",
-    onConfirm: undefined
 };
 
 const notificationSlice = createSlice({
@@ -24,7 +22,6 @@ const notificationSlice = createSlice({
             state.isOpen = true;
             state.type = action.payload.type;
             state.message = action.payload.message;
-            state.onConfirm = action.payload.onConfirm
         },
         clearNotification: () => initialState,
     },
