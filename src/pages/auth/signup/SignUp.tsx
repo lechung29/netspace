@@ -11,6 +11,7 @@ import { setNotification } from "@/redux-store/reducers/notifications";
 import { useNavigate } from "react-router-dom";
 import { checkPasswordStrength, mediumMessage, PasswordStrongValue, validateSignUp, weakMessage } from "./utils/validation";
 import { MdWarningAmber } from "react-icons/md";
+import { useNotificationContext } from "@/context";
 
 export interface SignUpState {
     firstName: string;
@@ -81,6 +82,7 @@ const SignUp: React.FunctionComponent = () => {
     const isMobile = useMaxWidth(450);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { notify } = useNotificationContext();
 
     React.useEffect(() => {
         if (scope.current) {
@@ -128,24 +130,26 @@ const SignUp: React.FunctionComponent = () => {
     }, [password]);
 
     const registerUser = async (): Promise<void> => {
-        if (isOpenWarningDialog) {
-            setSignUpState({
-                isConfirmLoading: true
-            })
-        }
+        setSignUpState({ isConfirmLoading: true })
         const [data] = await Promise.all([AuthService.registerUser({ firstName, lastName, email, password }), delayTime(1500)]);
+            console.log(data)
             if (data) {
                 if (data.status === IResponseStatus.Error) {
-                    setSignUpState({ [`${data?.fieldError?.fieldName}Error`]: data?.fieldError?.errorMessage, isDisabled: false, isLoading: false });
+                    setSignUpState({ [`${data?.fieldError}Error`]: data?.message, isDisabled: false, isLoading: false, isConfirmLoading: false, isOpenWarningDialog: false });
                     dispatch(
                         setNotification({
                             type: "error",
-                            message: data?.fieldError?.errorMessage,
+                            message: data?.message,
                         })
                     );
                 } else {
                     setSignUpState({ isDisabled: false, isLoading: false, isConfirmLoading: false, isOpenWarningDialog: false });
-                    await delayTime(2000).then(() => {
+                    notify({
+                        title: "Notification",
+                        type: "success",
+                        message: data.message,
+                    })
+                    await delayTime(1500).then(() => {
                         navigate("/login");
                     });
                 }
@@ -183,27 +187,21 @@ const SignUp: React.FunctionComponent = () => {
         }
     };
 
-    const disabledSignUp = React.useMemo(() => {
-        return !agreeTerm || isDisabled;
-    }, [isDisabled, agreeTerm]);
+    const disabledSignUp = React.useMemo(() => (!agreeTerm || isDisabled), [isDisabled, agreeTerm]);
 
     const handleClickTermOfUse = (e: React.MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()
     }
 
-    const onRenderTermLabel = React.useCallback(() => {
-        return (
-            <p>Agree our <span onClick={handleClickTermOfUse} className="!text-blue-600 dark:!text-blue-400 select-none hover:underline">Term of use</span></p>
-        );
-    }, []);
+    const onRenderTermLabel = React.useMemo(() => (
+        <p>Agree our <span onClick={handleClickTermOfUse} className="!text-blue-600 dark:!text-blue-400 select-none hover:underline">Term of use</span></p>
+    ), []);
 
-    const onRenderWarningDialogLabel = React.useMemo(() => {
-        return <div className="flex items-center gap-2">
-            <MdWarningAmber className={"text-xl dark:text-yellow-400 text-yellow-600"} />
-            <span className={"font-semibold dark:text-yellow-400 text-yellow-600"}>Warning</span>
-        </div>
-    }, [])
+    const onRenderWarningDialogLabel = React.useMemo(() => (<div className="flex items-center gap-2">
+        <MdWarningAmber className={"text-xl dark:text-yellow-400 text-yellow-600"} />
+        <span className={"font-semibold dark:text-yellow-400 text-yellow-600"}>Warning</span>
+    </div>), [])
 
 
     return (

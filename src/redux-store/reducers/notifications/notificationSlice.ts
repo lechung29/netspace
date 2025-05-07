@@ -4,18 +4,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@/redux-store/store";
 import { INotification } from "@/types";
 
-export interface INotificationState extends INotification {
+export interface INotificationDialogState extends INotification {
     isOpen: boolean;
 }
 
-const initialState: INotificationState = {
+const initialState: INotificationDialogState = {
     isOpen: false,
     type: undefined,
     message: "",
 };
 
-const notificationSlice = createSlice({
-    name: "notification",
+const notificationDialogSlice = createSlice({
+    name: "notificationDialog",
     initialState,
     reducers: {
         setNotification: (state, action) => {
@@ -27,7 +27,7 @@ const notificationSlice = createSlice({
     },
 });
 
-export const notificationState = (state: RootState) => state.notification;
+export const notificationDialogState = (state: RootState) => state.notificationDialog;
 
-export const { setNotification, clearNotification } = notificationSlice.actions;
-export default notificationSlice.reducer;
+export const { setNotification, clearNotification } = notificationDialogSlice.actions;
+export default notificationDialogSlice.reducer;

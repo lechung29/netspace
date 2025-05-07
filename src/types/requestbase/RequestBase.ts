@@ -5,14 +5,9 @@ export enum IResponseStatus {
     Success = 1,
 }
 
-export interface IFieldError {
-    fieldName: string;
-    errorMessage: string;
-}
-
 export interface IResponseBase {
     status: IResponseStatus;
-    fieldError?: IFieldError;
+    fieldError?: string;
     message?: string;
 }
 
