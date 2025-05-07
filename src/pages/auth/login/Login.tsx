@@ -8,8 +8,8 @@ import { validateSignIn } from "./utils/validation";
 import { AuthService } from "@/services";
 import { IResponseStatus } from "@/types";
 import { login, themeState, useAppDispatch, useAppSelector } from "@/redux-store";
-import { setNotification } from "@/redux-store/reducers/notifications";
 import { useNavigate } from "react-router-dom";
+import { useNotificationContext } from "@/context";
 
 export interface LoginState {
     email: string;
@@ -47,6 +47,7 @@ const Login: React.FunctionComponent = () => {
     const isMobile = useMaxWidth(450)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const { notify } = useNotificationContext();
 
     React.useEffect(() => {
         if (scope.current) {
@@ -97,22 +98,20 @@ const Login: React.FunctionComponent = () => {
                 draft.isDisabled = false;
                 draft.isLoading = false;
             });
-            dispatch(setNotification({
-                type: "error",
+            notify({
                 message: errorMessage,
-            }))
+                type: "error"
+            })
         } else {
             const [data] = await Promise.all([AuthService.loginUser({ email, password }), delayTime(1500)]);
             if (data) {
                 if (data.status === IResponseStatus.Error) {
-                    setLoginState({ [`${data?.fieldError?.fieldName}Error`]: data?.fieldError?.errorMessage, isDisabled: false, isLoading: false});
-                    dispatch(setNotification({
-                        type: "error",
-                        message: data?.fieldError?.errorMessage,
-                    }))
+                    setLoginState({ [`${data?.fieldError}Error`]: data?.message, isDisabled: false, isLoading: false});
+                    notify({ type: "error", message: data.message!})
                 } else {
                     dispatch(login(mapUserInfoFromDataToState(data.data)));
                     setLoginState({ isDisabled: false, isLoading: false });
+                    notify({ message: data.message! })
                     await delayTime(2000).then(() => {
                         navigate("/");
                     });

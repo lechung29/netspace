@@ -6,8 +6,7 @@ import { motion, stagger, useAnimate } from "framer-motion";
 import { useImmerState } from "@/hooks";
 import { AuthService } from "@/services";
 import { IResponseStatus } from "@/types";
-import { themeState, useAppDispatch, useAppSelector } from "@/redux-store";
-import { setNotification } from "@/redux-store/reducers/notifications";
+import { themeState, useAppSelector } from "@/redux-store";
 import { useNavigate } from "react-router-dom";
 import { checkPasswordStrength, mediumMessage, PasswordStrongValue, validateSignUp, weakMessage } from "./utils/validation";
 import { MdWarningAmber } from "react-icons/md";
@@ -80,7 +79,6 @@ const SignUp: React.FunctionComponent = () => {
     } = signUpState;
     const [scope, animate] = useAnimate<HTMLFormElement>();
     const isMobile = useMaxWidth(450);
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { notify } = useNotificationContext();
 
@@ -132,23 +130,13 @@ const SignUp: React.FunctionComponent = () => {
     const registerUser = async (): Promise<void> => {
         setSignUpState({ isConfirmLoading: true })
         const [data] = await Promise.all([AuthService.registerUser({ firstName, lastName, email, password }), delayTime(1500)]);
-            console.log(data)
             if (data) {
                 if (data.status === IResponseStatus.Error) {
                     setSignUpState({ [`${data?.fieldError}Error`]: data?.message, isDisabled: false, isLoading: false, isConfirmLoading: false, isOpenWarningDialog: false });
-                    dispatch(
-                        setNotification({
-                            type: "error",
-                            message: data?.message,
-                        })
-                    );
+                    notify({ type: "error", message: data?.message })
                 } else {
                     setSignUpState({ isDisabled: false, isLoading: false, isConfirmLoading: false, isOpenWarningDialog: false });
-                    notify({
-                        title: "Notification",
-                        type: "success",
-                        message: data.message,
-                    })
+                    notify({ message: data.message })
                     await delayTime(1500).then(() => {
                         navigate("/login");
                     });
@@ -166,12 +154,7 @@ const SignUp: React.FunctionComponent = () => {
                 draft.isDisabled = false;
                 draft.isLoading = false;
             });
-            dispatch(
-                setNotification({
-                    type: "error",
-                    message: errorMessage,
-                })
-            );
+            notify({ type: "error", message: errorMessage })
         } else {
             if ([PasswordStrongValue.Weak, PasswordStrongValue.Medium].includes(passwordStrength)) {
                 const warningMessage = passwordStrength === PasswordStrongValue.Weak ? weakMessage : mediumMessage

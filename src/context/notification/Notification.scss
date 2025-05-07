@@ -1,0 +1,57 @@
+/** @format */
+
+html.dark .g-notification-message-wrap {
+    background-color: #283556;
+    border-radius: 6px;
+
+    .ant-notification-notice-message {
+        color: white !important;
+        font-weight: 500;
+    }
+
+    .ant-notification-notice-close {
+        color: white !important;
+        background-color: transparent !important;
+
+        &:hover {
+            background-color: #53638b !important;
+        }
+    }
+
+    .ant-notification-notice-description {
+        color: white !important;
+        font-size: 13px!important;
+    }
+
+    .ant-notification-notice-progress {
+        background-color: transparent!important;
+    }
+
+}
+
+html.light .g-notification-message-wrap {
+    
+    .ant-notification-notice-message {
+        color: black;
+        font-weight: 500;
+    }
+
+    .ant-notification-notice-close {
+        color: black !important;
+        background-color: transparent !important;
+
+        &:hover {
+            background-color: #eeeef7 !important;
+        }
+    }
+
+    .ant-notification-notice-description {
+        color: black !important;
+        font-size: 13px!important;
+    }
+
+    .ant-notification-notice-progress {
+        background-color: transparent!important;
+    }
+
+}

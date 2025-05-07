@@ -7,8 +7,10 @@ export interface IThemeState {
     theme: "light" | "dark";
 }
 
+const initialTheme = document.documentElement.classList.contains("dark") ? "dark" : "light"
+
 const initialState: IThemeState = {
-    theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+    theme: initialTheme
 };
 
 const themeSlice = createSlice({
@@ -17,7 +19,13 @@ const themeSlice = createSlice({
     reducers: {
         setTheme: (state, action) => {
             state.theme = action.payload;
-            document.documentElement.classList.toggle("dark", action.payload === "dark");
+            if (action.payload === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+            }
         },
     },
 });
