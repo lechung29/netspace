@@ -2,7 +2,7 @@
 
 import React from "react";
 import { themeState, useAppDispatch, useAppSelector } from "@/redux-store";
-import { clearNotification, notificationState } from "@/redux-store/reducers/notifications";
+import { clearNotification, notificationDialogState } from "@/redux-store/reducers/notifications";
 import { Modal } from "antd";
 import { FaCheck } from "react-icons/fa";
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -14,7 +14,7 @@ import { IconType } from "react-icons/lib";
 import { classNames } from "@/utils";
 
 const NotificationDialog: React.FunctionComponent = () => {
-    const { isOpen, message, type } = useAppSelector(notificationState);
+    const { isOpen, message, type } = useAppSelector(notificationDialogState);
     const { theme } = useAppSelector(themeState);
     const dispatch = useAppDispatch();
 

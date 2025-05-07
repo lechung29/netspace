@@ -7,7 +7,7 @@ import React from "react";
 
 export interface ICheckBoxProps extends Omit<CheckboxProps, "onChange" > {
     displayText?: string;
-    onRenderLabel?: () => React.JSX.Element;
+    onRenderLabel?: React.JSX.Element;
     onChangeValue?: (value: boolean) => void
 }
 
@@ -43,7 +43,7 @@ const CheckboxView: React.FunctionComponent<ICheckBoxProps> = (props) => {
         defaultChecked={internalValue}
         onChange={onCheckBoxChange}
     >
-        {displayText || onRenderLabel?.() || children}
+        {displayText || onRenderLabel || children}
     </Checkbox>;
 };
 

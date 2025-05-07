@@ -2,6 +2,7 @@
 
 import { API_BASE_URL } from "@/constants";
 import { AuthService } from "@/services";
+import { IResponseStatus } from "@/types";
 import axios from "axios";
 
 const instance = axios.create({
@@ -58,11 +59,20 @@ instance.interceptors.response.use(
         return response.data;
     },
     (err) => {
+        const errorMessage = "Unable to connect to the server. This may be due to a network interruption or the server is temporarily unavailable. Please check your internet connection or refresh the page after a few minutes."
         if (axios.isAxiosError(err) && err.code === "ECONNABORTED") {
-            console.error("⚠️ Request timeout! The server took too long to respond.");
-            return Promise.resolve();
+            return Promise.resolve({
+                status: IResponseStatus.Error,
+                message: errorMessage
+            });
         }
-        return Promise.resolve(err.response.data);
+        if (err?.response?.data) {
+            return Promise.resolve(err.response.data);
+        }
+        return Promise.resolve({
+            status: IResponseStatus.Error,
+            message: err.message === "Network Error" ? errorMessage : err.message
+        })
     }
 );
 
