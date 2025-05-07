@@ -4,10 +4,10 @@ import React, { createContext, useContext } from "react";
 import { notification } from "antd";
 import type { ArgsProps } from "antd/es/notification";
 
-export type INotificationMessageProps = Pick<ArgsProps, "type" | "onClick" > & {
-    title: ArgsProps["message"],
-    message?: ArgsProps["description"] 
-}
+export type INotificationMessageProps = Pick<ArgsProps, "type" | "onClick"> & {
+    title?: ArgsProps["message"];
+    message: ArgsProps["description"];
+};
 
 type NotificationContextType = {
     notify: (config: INotificationMessageProps) => void;
@@ -28,7 +28,7 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const notify = (config: INotificationMessageProps) => {
         api.open({
-            message: config.title,
+            message: config.title || "Notification",
             description: config.message,
             type: config.type || "success",
             duration: 5,
@@ -37,7 +37,7 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             placement: "topRight",
             className: "g-notification-message-wrap",
             onClick: config.onClick,
-            role: "status"
+            role: "status",
         });
     };
 
@@ -49,8 +49,4 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     );
 };
 
-export {
-    NotificationProvider,
-    NotificationContext,
-    useNotificationContext
-}
+export { NotificationProvider, NotificationContext, useNotificationContext };

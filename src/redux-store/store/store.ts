@@ -7,7 +7,6 @@ import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
 import { useDispatch, useSelector } from "react-redux";
 import UserSlice from "../reducers/users/userSlice";
-import NotificationDialogSlice from "../reducers/notifications/notificationSlice";
 import ThemeSlice from "../reducers/themes/themeSlice";
 
 const persistConfig: any = {
@@ -20,7 +19,6 @@ const persistConfig: any = {
 const rootReducer = combineReducers({
     user: UserSlice,
     theme: ThemeSlice,
-    notificationDialog: NotificationDialogSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

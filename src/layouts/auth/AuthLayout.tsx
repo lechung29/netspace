@@ -1,6 +1,5 @@
 /** @format */
 
-import { NotificationDialog } from "@/components";
 import React from "react";
 import { Outlet } from "react-router-dom";
 const AuthLayout: React.FunctionComponent = () => {
@@ -9,7 +8,6 @@ const AuthLayout: React.FunctionComponent = () => {
             <div className="w-full p-10 flex items-center justify-center overflow-auto">
                 <Outlet />
             </div>
-            <NotificationDialog />
         </section>
     );
 };
