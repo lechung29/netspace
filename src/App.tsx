@@ -3,7 +3,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthLayout, MainLayout, TitleResolver } from "./layouts";
 import { ProtectedRoute } from "./components";
-import { Login, SignUp } from "./pages";
+import { Login, NewFeed, SignUp } from "./pages";
 import React from "react";
 import { setTheme, useAppDispatch } from "./redux-store";
 
@@ -25,7 +25,9 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/*" element={<TitleResolver />}>
-                    <Route element={<MainLayout />}>{/* <Route index element={<Home />} /> */}</Route>
+                    <Route element={<MainLayout />}>
+                        <Route index element={<NewFeed />} />
+                    </Route>
                     <Route element={<ProtectedRoute />}>
                         <Route element={<MainLayout />}>
                             {/* <Route path="messages" element={<MessagePage />} /> */}

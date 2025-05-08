@@ -10,7 +10,7 @@ const Label: React.FunctionComponent<ILabelProps> = (props) => {
     const { displayText, className, children, ...rest } = props;
     return <label
         {...rest}
-        className={classNames("dark:text-white text-sm font-medium", className)}
+        className={classNames("dark:!text-white !text-black text-sm font-medium", className)}
     >
         {displayText || children}
     </label>

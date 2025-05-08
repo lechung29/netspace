@@ -5,7 +5,7 @@ import { Input, InputProps } from "antd";
 import { useControllableState } from "@/hooks";
 import { classNames } from "@/utils";
 
-export interface ITextInputProps extends Omit<InputProps, "onChange" | "value" | "autoComplete" | "variant"> {
+export interface ITextInputProps extends Omit<InputProps, "onChange" | "value" | "autoComplete" | "variant" | "prefix" | "suffix" | "prefixCls"> {
     value?: string;
     errorMessage?: string;
     onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -23,7 +23,7 @@ const TextField: React.FunctionComponent<ITextInputProps> = (props) => {
     });
 
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col items-center justify-center gap-2 w-full">
             <Input
                 {...rest}
                 autoComplete="off"
@@ -34,7 +34,7 @@ const TextField: React.FunctionComponent<ITextInputProps> = (props) => {
                 }}
                 onClear={onClear}
                 className={classNames(
-                    "placeholder:!text-gray-800 !px-4 dark:placeholder:!text-gray-400 placeholder:!text-[13px] dark:!text-white !text-sm !border-[1.5px] !outline-none dark:!bg-[#1b2335] !bg-white !shadow-none",
+                    "placeholder:!text-gray-700 !px-4 dark:placeholder:!text-gray-400 placeholder:!text-[13px] dark:!text-white !text-sm !border-[1.5px] !outline-none dark:!bg-[#1b2335] !bg-white !shadow-none",
                     errorMessage
                         ? "!border-red-600 dark:!border-red-400"
                         : "dark:hover:!border-white hover:!border-gray-800 dark:focus:!border-white focus:!border-gray-800 dark:disabled:!border-gray-500 disabled:!border-gray-300",

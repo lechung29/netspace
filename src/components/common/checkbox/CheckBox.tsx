@@ -37,7 +37,7 @@ const CheckboxView: React.FunctionComponent<ICheckBoxProps> = (props) => {
 
     return <Checkbox
         {...rest}
-        className={classNames("select-none !text-[13px] font-normal dark:!text-white !text-gray-700", className)}
+        className={classNames("select-none !text-[13px] font-normal dark:!text-white !text-black", className)}
         disabled={disabled}
         checked={internalValue}
         defaultChecked={internalValue}
