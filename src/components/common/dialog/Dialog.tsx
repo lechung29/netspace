@@ -28,7 +28,7 @@ const Dialog: React.FunctionComponent<IDialogProp> = (props) => {
                 maskClosable={false}
                 cancelButtonProps={{
                     ...cancelButtonProps,
-                    className: "dark:!bg-gray-400 dark:hover:!bg-gray-600 !bg-transparent hover:!bg-gray-100 !shadow-none dark:!border-none hover:!border-gray-300 dark:!text-white dark:hover:!text-white hover:!text-black",
+                    className: "dark:!bg-gray-400 dark:hover:!bg-gray-600 !bg-transparent hover:!bg-gray-100 !shadow-none dark:!border-none hover:!border-gray-300 dark:!text-white dark:hover:!text-white !text-black hover:!text-black",
                 }}
                 okButtonProps={{
                     ...okButtonProps,

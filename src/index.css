@@ -10,6 +10,31 @@
     margin: 0;
     box-sizing: border-box;
     font-family: "Inter", system-ui, sans-serif;
-    font-optical-sizing: auto;  
+    font-optical-sizing: auto;
     letter-spacing: 0.5px;
-} 
+}
+
+.scroll-on-hover {
+    overflow-y: hidden;
+}
+
+.scroll-on-hover:hover {
+    overflow-y: auto;
+}
+
+.scroll-on-hover::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-on-hover::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 3px;
+}
+
+.html.light {
+    color: black;
+}
+
+html.dark {
+    color: white;
+}

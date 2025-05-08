@@ -32,7 +32,7 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             description: config.message,
             type: config.type || "success",
             duration: 5,
-            pauseOnHover: false,
+            pauseOnHover: true,
             showProgress: true,
             placement: "topRight",
             className: "g-notification-message-wrap",

@@ -1,0 +1,61 @@
+/** @format */
+
+html.dark .ant-input-affix-wrapper {
+    border: none;
+    outline: none !important;
+    box-shadow: none !important;
+    &:hover,
+    &:focus,
+    &:focus-visible {
+        border: none;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .ant-input-prefix {
+        color: white;
+        margin: 0 4px;
+        font-size: 18px;
+    }
+
+    input {
+        padding: 0 8px;
+        color: white;
+        font-size: 14px;
+
+        &::placeholder {
+            color: var(--color-gray-400);
+            font-size: 13px;
+        }
+    }
+}
+
+html.light .ant-input-affix-wrapper {
+    border: none;
+    outline: none !important;
+    box-shadow: none !important;
+    &:hover,
+    &:focus,
+    &:focus-visible {
+        border: none;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .ant-input-prefix {
+        color: black;
+        margin: 0 4px;
+        font-size: 18px;
+    }
+
+    input {
+        padding: 0 8px;
+        color: black;
+        font-size: 14px;
+
+        &::placeholder {
+            color: var(--color-gray-700);
+            font-size: 13px;
+        }
+    }
+}
