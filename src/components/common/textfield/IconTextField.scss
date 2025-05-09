@@ -12,10 +12,12 @@ html.dark .ant-input-affix-wrapper {
         box-shadow: none !important;
     }
 
-    .ant-input-prefix {
+    .ant-input-prefix,
+    .ant-input-suffix {
         color: white;
         margin: 0 4px;
         font-size: 18px;
+        user-select: none;
     }
 
     input {
@@ -42,10 +44,12 @@ html.light .ant-input-affix-wrapper {
         box-shadow: none !important;
     }
 
-    .ant-input-prefix {
+    .ant-input-prefix,
+    .ant-input-suffix {
         color: black;
         margin: 0 4px;
         font-size: 18px;
+        user-select: none;
     }
 
     input {
