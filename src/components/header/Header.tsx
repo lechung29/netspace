@@ -5,7 +5,9 @@ import { Breakpoint, getLogoImageSrc, useMinWidth } from "@/utils";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchForm } from "../search-form";
-import { Button, Drawer, DrawerProps } from "antd";
+import { Drawer, DrawerProps } from "antd";
+import { Button } from "../common";
+import { IoMenuOutline, IoCloseOutline } from "react-icons/io5";
 
 const Header: React.FunctionComponent = () => {
     const { theme } = useAppSelector(themeState);
@@ -13,6 +15,11 @@ const Header: React.FunctionComponent = () => {
     const isTablet = useMinWidth(Breakpoint.TabletMin)
     const redirectToNewFeed = (): void => { navigate("/")}
     const [open, setOpen] = React.useState(false);
+
+    const drawerIcon: React.JSX.Element = React.useMemo(() => {
+        let Icon = open ? IoCloseOutline : IoMenuOutline;
+        return <Icon className="text-2xl" />
+    }, [open])
 
     const showDrawer = () => {
         setOpen(!open);
@@ -31,9 +38,12 @@ const Header: React.FunctionComponent = () => {
     return (
         <div className="flex justify-between !items-center w-full h-full !px-6 lg:gap-20 md:gap-10">
             <div className="w-auto flex items-center justify-center gap-2">
-                <Button className="max-md:!block !hidden" type="primary" onClick={showDrawer}>
-                    Open
-                </Button>
+                <Button 
+                    className="max-md:!block !hidden dark:!bg-transparent !border-none" 
+                    type="default" 
+                    onClick={showDrawer}
+                    icon={drawerIcon}
+                />
                 <img 
                     src={getLogoImageSrc(theme)} 
                     alt="net_space_logo" 
