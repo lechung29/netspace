@@ -40,11 +40,17 @@ html.dark {
 }
 
 .ant-popover {
-    margin-top: 6px!important;
+    margin-top: 6px !important;
 }
 
-.ant-popover-inner {
-    padding: 0!important;
-    overflow: hidden!important;
-    box-shadow: none!important;
+html.dark .ant-popover-inner {
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+}
+
+html.light .ant-popover-inner {
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px !important;
 }

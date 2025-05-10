@@ -7,3 +7,4 @@ export * from "./password-strong";
 export * from "./header";
 export * from "./search-form";
 export * from "./header-action";
+export * from "./header-create-content";
