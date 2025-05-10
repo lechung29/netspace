@@ -1,10 +1,11 @@
 /** @format */
 
-import React from "react";
+import React, { forwardRef } from "react";
 import { Button as AntdButton, ButtonProps } from "antd";
 import { classNames } from "@/utils";
 import "./Button.scss"
 import { useControllableState } from "@/hooks";
+
 
 export interface IButtonProps extends Omit<ButtonProps, "type" | "loading" | "onClick" > {
     type?: "primary" | "default"
@@ -14,7 +15,7 @@ export interface IButtonProps extends Omit<ButtonProps, "type" | "loading" | "on
     setLoading?: (loading: boolean) => void;
 }
 
-const Button: React.FunctionComponent<IButtonProps> = (props) => {
+const Button: React.FunctionComponent<IButtonProps> = forwardRef<HTMLButtonElement, IButtonProps>((props, ref) => {
     const { 
         displayText, 
         className, 
@@ -57,15 +58,17 @@ const Button: React.FunctionComponent<IButtonProps> = (props) => {
     
     return <AntdButton
         {...rest}
+        ref={ref}
         type={type}
         className={classNames(commonButtonClass, className)}
         iconPosition={iconPosition}
         onClick={handleClick}
         loading={internalLoading}
         disabled={disableButton}
+        
     >
         {displayText || children}
     </AntdButton>
-};
+});
 
 export { Button };
