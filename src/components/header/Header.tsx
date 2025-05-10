@@ -5,9 +5,11 @@ import { Breakpoint, getLogoImageSrc, useMinWidth } from "@/utils";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchForm } from "../search-form";
-import { Drawer, DrawerProps } from "antd";
+import { Drawer } from "antd";
 import { Button } from "../common";
 import { IoMenuOutline, IoCloseOutline } from "react-icons/io5";
+import { HeaderActionBar } from "../header-action";
+
 
 const Header: React.FunctionComponent = () => {
     const { theme } = useAppSelector(themeState);
@@ -54,7 +56,7 @@ const Header: React.FunctionComponent = () => {
             <div className="max-md:hidden flex-1 relative flex items-center justify-center !p-2">
                 <SearchForm />
             </div>
-            <div className="w-40">Hello</div>
+            <HeaderActionBar />
             <Drawer
                 title="Basic Drawer"
                 placement={"left"}
