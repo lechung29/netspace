@@ -41,7 +41,7 @@ const Header: React.FunctionComponent = () => {
         <div className="flex justify-between !items-center w-full h-full !px-6 lg:gap-20 md:gap-10">
             <div className="w-auto flex items-center justify-center gap-2">
                 <Button 
-                    className="max-md:!block !hidden dark:!bg-transparent !border-none" 
+                    className="max-lg:!block !hidden dark:!bg-transparent !border-none" 
                     type="default" 
                     onClick={showDrawer}
                     icon={drawerIcon}
@@ -65,7 +65,7 @@ const Header: React.FunctionComponent = () => {
                 open={open}
                 width={300}
                 key={"left"}
-                rootClassName="!z-10 md:!hidden"
+                rootClassName="!z-10 lg:!hidden"
             >
                 <p>Some contents...</p>
                 <p>Some contents...</p>
