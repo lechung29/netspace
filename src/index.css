@@ -15,20 +15,21 @@
 }
 
 .scroll-on-hover {
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
-.scroll-on-hover:hover {
-    overflow-y: auto;
-}
 
 .scroll-on-hover::-webkit-scrollbar {
     width: 6px;
 }
 
 .scroll-on-hover::-webkit-scrollbar-thumb {
-    background-color: rgba(100, 100, 100, 0.4);
+    background-color: transparent;
     border-radius: 3px;
+}
+
+.scroll-on-hover:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.4);
 }
 
 .html.light {

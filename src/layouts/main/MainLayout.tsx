@@ -1,6 +1,6 @@
 /** @format */
 
-import { Header } from "@/components";
+import { Header, Navigation } from "@/components";
 import { Outlet } from "react-router-dom";
 
 const MainLayout: React.FunctionComponent = () => {
@@ -10,10 +10,9 @@ const MainLayout: React.FunctionComponent = () => {
                <Header />
             </header>
             <div className="!pt-16 flex gap-2 h-screen bg-white dark:!bg-[#0f172a]">
-                <aside className="w-64 hidden lg:block !mt-2 !p-2 !pt-0 shrink-0 scroll-on-hover">
-                
+                <aside className="w-60 hidden lg:block !my-2 !px-2 shrink-0 scroll-on-hover">
+                    <Navigation />
                 </aside>
-
                 <main className="flex-1 scroll-on-hove p-4">
                     <Outlet />
                 </main>

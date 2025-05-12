@@ -6,6 +6,38 @@ import { IoCamera } from "react-icons/io5";
 import { HiVideoCamera } from "react-icons/hi2";
 
 const HeaderCreateContent: React.FunctionComponent = () => {
+    const createActionSubItem = [
+        {
+            title: "Group",
+            description: "Meet people with similar interests.",
+            icon: "https://img.icons8.com/color/48/staff-skin-type-7.png",
+            iconAlt: "group-icon",
+            onClick: () => console.log("Group clicked"),
+        },
+        {
+            title: "Page",
+            description: "Find and connect with business.",
+            icon: "https://img.icons8.com/arcade/64/flag.png",
+            iconAlt: "page-icon",
+            onClick: () => console.log("Page clicked"),
+        },
+    ]
+
+    const onRenderCreateActionSubItem = (): JSX.Element => (<>
+        {createActionSubItem.map((item, index) => (
+            <div key={index} className="w-full !p-2 flex items-center justify-between gap-4 rounded-lg cursor-pointer hover:!bg-[#f1f5f9] dark:hover:!bg-[#485466]" onClick={item.onClick}>
+                <img 
+                    className="w-8 h-8" 
+                    src={item.icon} 
+                    alt={item.iconAlt}
+                />
+                <div className="flex-1 flex flex-col">
+                    <p className="font-medium dark:!text-white !text-black !text-sm">{item.title}</p>
+                    <p className="dark:!text-gray-300 !text-gray-700 text-[12px]">{item.description}</p>
+                </div>
+            </div>
+        ))}
+    </>)
     
     const onRenderCreateActionItem = (type: string, onClick?: () => void | Promise<void>): JSX.Element => {
         let icon: JSX.Element = <></>
@@ -44,34 +76,11 @@ const HeaderCreateContent: React.FunctionComponent = () => {
                 {onRenderCreateActionItem("Post")}
                 {onRenderCreateActionItem("Reel")}
             </div>
-            <div className="w-full !mt-4 flex items-center justify-center gap-2">
-                <div className="w-full !p-2 flex items-center justify-between gap-4 rounded-lg cursor-pointer hover:!bg-[#f1f5f9] dark:hover:!bg-[#485466]">
-                    <img 
-                        className="w-8 h-8"
-                        src="https://img.icons8.com/color/48/staff-skin-type-7.png" 
-                        alt="group-icon"
-                    />
-                    <div className="flex-1 flex flex-col">
-                        <p className="font-medium dark:!text-white !text-black !text-sm">Group</p>
-                        <p className="dark:!text-gray-300 !text-gray-700 text-[12px]">Meet people with similar interests.</p>
-                    </div>
-                </div>
-            </div>
-            <div className="w-full !mt-2 flex items-center justify-center gap-2">
-                <div className="w-full !p-2 flex items-center justify-between gap-4 rounded-lg cursor-pointer hover:!bg-[#f1f5f9] dark:hover:!bg-[#485466]">
-                    <img 
-                        className="w-8 h-8" 
-                        src="https://img.icons8.com/arcade/64/flag.png" 
-                        alt="page-icon"
-                    />
-                    <div className="flex-1 flex flex-col">
-                        <p className="font-medium dark:!text-white !text-black !text-sm">Page</p>
-                        <p className="dark:!text-gray-300 !text-gray-700 text-[12px]">Find and connect with business.</p>
-                    </div>
-                </div>
+            <div className="w-full !mt-4 flex flex-col gap-2">
+                {onRenderCreateActionSubItem()}
             </div>
         </div>
     );
 };
 
-export { HeaderCreateContent };
+export { HeaderCreateContent }
