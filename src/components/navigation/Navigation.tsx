@@ -127,20 +127,20 @@ const Navigation: React.FunctionComponent = () => {
             path: "/profile",
         },
         {
-            key: "Marin Gray",
-            name: "Marin Gray",
+            key: "Lionel Green",
+            name: "Lionel Green",
             icon: <Avatar size={28} src="/src/assets/banner.jpg" />,
             path: "/profile",
         },
         {
-            key: "Alexander Stella",
-            name: "Alexander Stella",
+            key: "Alexander Tiny",
+            name: "Alexander Tiny",
             icon: <Avatar size={28} src="/src/assets/banner.jpg" />,
             path: "/profile",
         },
         {
-            key: "Sarah Ali",
-            name: "Sarah Ali",
+            key: "William Brown",
+            name: "William Brown",
             icon: <Avatar size={28} src="/src/assets/banner.jpg" />,
             path: "/profile",
         },
@@ -148,7 +148,7 @@ const Navigation: React.FunctionComponent = () => {
 
     const SeeAllOrLessIcon = React.useMemo(() => {
         const Icon = shortcutLength === shortcutItem.length ? FaChevronUp : FaChevronDown;
-        return <Icon className="dark:!text-white !text-black" />;
+        return <Icon className="dark:!text-white !text-black dark:group-hover:!text-white group-hover:!text-[#0284c7]" />;
     }, [shortcutLength]);
 
     const handleSeeAllOrLess = () => {
@@ -164,7 +164,7 @@ const Navigation: React.FunctionComponent = () => {
                         key={route.key}
                         className={classNames(
                             "flex items-center justify-start gap-4 dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-3 cursor-pointer dark:hover:!text-white hover:!text-[#0284c7] !text-sm font-medium", {
-                                "dark:!bg-[#334150] !bg-[#e7f1fc]": location.pathname === route.path
+                                "dark:!bg-[#334150] !bg-[#e7f1fc] !text-[#0284c7] dark:!text-white": location.pathname === route.path
                             }
                         )}
                         to={route.path}
@@ -178,16 +178,20 @@ const Navigation: React.FunctionComponent = () => {
             {shortcutItem.slice(0, shortcutLength).map((route) => (
                 <Link
                     key={route.key}
-                    className="flex items-center justify-start gap-2 dark:!bg-transparent dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-[10px] cursor-pointer dark:hover:!text-white hover:!text-[#0284c7] !text-sm font-medium"
+                    className={classNames(
+                            "flex items-center justify-start gap-4 dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-3 cursor-pointer dark:hover:!text-white hover:!text-[#0284c7] !text-sm font-medium", {
+                                "dark:!bg-[#334150] !bg-[#e7f1fc] !text-[#0284c7] dark:!text-white": location.pathname === route.path
+                            }
+                        )}
                     to={route.path}
                 >
                     {route.icon}
                     {route.name}
                 </Link>
             ))}
-            {shortcutItem.length > 3 && (<div onClick={handleSeeAllOrLess} className="flex items-center justify-start gap-3 dark:!bg-transparent dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-3 cursor-pointer dark:hover:!text-white hover:!text-[#0284c7] !text-sm font-medium">
+            {shortcutItem.length > 3 && (<div onClick={handleSeeAllOrLess} className="flex items-center justify-start gap-3 dark:!bg-transparent dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-3 cursor-pointer group !text-sm font-medium">
                 {SeeAllOrLessIcon}
-                <span className="!text-sm font-semibold dark:!text-white !text-black select-none">{shortcutLength === shortcutItem.length ? "See less" : "See all"}</span>
+                <span className="!text-sm font-semibold dark:!text-white !text-black dark:group-hover:!text-white group-hover:!text-[#0284c7] select-none">{shortcutLength === shortcutItem.length ? "See less" : "See all"}</span>
             </div>)}
             <Divider className="!my-2 dark:!bg-gray-600" />
             <div className="!mx-3 !my-1 !text-sm font-semibold">Pages</div>
@@ -196,7 +200,11 @@ const Navigation: React.FunctionComponent = () => {
                 .map((route) => (
                     <Link
                         key={route.key}
-                        className="flex items-center justify-start gap-4 dark:!bg-transparent dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-3 cursor-pointer dark:hover:!text-white hover:!text-[#0284c7] !text-sm font-medium"
+                        className={classNames(
+                            "flex items-center justify-start gap-4 dark:hover:!bg-[#334150] hover:!bg-[#e7f1fc] rounded-xl !px-4 !py-3 cursor-pointer dark:hover:!text-white hover:!text-[#0284c7] !text-sm font-medium", {
+                                "dark:!bg-[#334150] !bg-[#e7f1fc] !text-[#0284c7] dark:!text-white": location.pathname === route.path
+                            }
+                        )}
                         to={route.path}
                     >
                         {route.icon}
