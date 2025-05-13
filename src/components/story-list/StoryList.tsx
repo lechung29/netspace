@@ -58,7 +58,7 @@ const StoryList: React.FunctionComponent<IStoryListProps> = (_props) => {
         <section className="g-story-list-section">
             <div className="flex justify-start items-center gap-2">
                 <Button
-                    className={classNames("dark:!bg-[#293445] !bg-[#f1f5f9] !shadow-xl !rounded-full", { "invisible": isStart }, { "visible": !isStart })}
+                    className={classNames("dark:!bg-[#293445] dark:hover:!bg-[#293445] !bg-[#f1f5f9] hover:!bg-[#dfeefe] !shadow-xl !rounded-full", { "invisible": isStart }, { "visible": !isStart })}
                     onClick={onPreviousItemClick}
                     icon={<GrFormPrevious className="dark:!text-white !text-black !text-lg" />}
                 />
@@ -78,7 +78,7 @@ const StoryList: React.FunctionComponent<IStoryListProps> = (_props) => {
                     ))}
                 </Swiper>
                 <Button
-                    className={classNames("dark:!bg-[#293445] !bg-[#f1f5f9] !shadow-xl !rounded-full", { "invisible": isEnd }, { "visible": !isEnd })}
+                    className={classNames("dark:!bg-[#293445] dark:hover:!bg-[#293445] !bg-[#f1f5f9] hover:!bg-[#dfeefe] !shadow-xl !rounded-full", { "invisible": isEnd }, { "visible": !isEnd })}
                     onClick={onNextItemClick}
                     icon={<GrFormNext className="dark:!text-white !text-black !text-lg" />}
                 />

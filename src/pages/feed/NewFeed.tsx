@@ -1,6 +1,6 @@
 /** @format */
 
-import { StoryList } from "@/components";
+import { PeopleYouMightKnow, StoryList } from "@/components";
 import React from "react";
 
 const NewFeed: React.FunctionComponent = () => {
@@ -8,10 +8,11 @@ const NewFeed: React.FunctionComponent = () => {
         <div className="flex-1 min-w-0">
             <StoryList />   
         </div>
-        <div className="!w-75 flex-shrink-0">
-            <div className="w-full h-96 bg-slate-200 dark:bg-slate-700 rounded-lg shadow-md">
+        <div className="!w-80 flex-shrink-0">
+            {/* <div className="w-full h-96 bg-slate-200 dark:bg-slate-700 rounded-lg shadow-md">
                 Hello
-            </div>
+            </div> */}
+            <PeopleYouMightKnow />
         </div>
     </div>
 };
