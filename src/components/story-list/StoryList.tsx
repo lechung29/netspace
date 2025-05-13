@@ -65,7 +65,7 @@ const StoryList: React.FunctionComponent<IStoryListProps> = (_props) => {
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
                     spaceBetween={10}
-                    slidesPerView={9}
+                    slidesPerView={2}
                     className="g-story-list-section-List-swiper"
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper;
