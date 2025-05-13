@@ -9,3 +9,5 @@ export * from "./search-form";
 export * from "./header-action";
 export * from "./header-create-content";
 export * from "./navigation";
+export * from "./story-list";
+export * from "./story-avatar";

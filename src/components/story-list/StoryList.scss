@@ -1,0 +1,24 @@
+/** @format */
+
+.g-story-list-section {
+    width: 620px;
+}
+
+.g-story-list-section-List-swiper {
+    flex: 1;
+    height: 100px;
+    max-width: 620px;
+    margin: 0;
+    // padding: 10px;
+
+    .swiper-wrapper {
+        // gap: 10px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .swiper-slide {
+        margin-right: 0 !important;
+        width: 60px !important;
+    }
+}
