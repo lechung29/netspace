@@ -60,8 +60,8 @@ const SearchForm: React.FunctionComponent = () => {
             />
             <div
                 ref={contentRef}
-                className={classNames("absolute top-[2px] !w-full !rounded-xl !shadow-2xl !opacity-0 !h-80 bg-white dark:!bg-[#334155] group-focus-within:!opacity-100 !p-4 !pt-14 transition-opacity duration-400 !z-10", {
-                    "!opacity-100": isFocusedInput || isFocusedContent,
+                className={classNames("absolute top-[2px] !w-full !rounded-xl !shadow-2xl !h-80 bg-white dark:!bg-[#334155] hidden group-focus-within:!block !p-4 !pt-14 !z-10", {
+                    "!block": isFocusedInput || isFocusedContent,
                 })}
             >
                 <div className="w-full h-full scroll-on-hover">
