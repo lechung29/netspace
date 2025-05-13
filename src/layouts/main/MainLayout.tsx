@@ -13,7 +13,7 @@ const MainLayout: React.FunctionComponent = () => {
                 <aside className="w-60 hidden lg:block !my-2 !px-2 shrink-0 scroll-on-hover">
                     <Navigation />
                 </aside>
-                <main className="flex-1 scroll-on-hover !p-4">
+                <main className="flex-1 scroll-on-hover !p-6">
                     <Outlet />
                 </main>
             </div>
