@@ -12,3 +12,4 @@ export * from "./navigation";
 export * from "./story-list";
 export * from "./story-avatar";
 export * from "./people-you-might-know";
+export * from "./create-post-form";

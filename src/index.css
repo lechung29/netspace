@@ -18,7 +18,6 @@
     overflow-y: scroll;
 }
 
-
 .scroll-on-hover::-webkit-scrollbar {
     width: 6px;
 }
@@ -55,3 +54,44 @@ html.light .ant-popover-inner {
     overflow: hidden !important;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px !important;
 }
+
+.normal-box-shadow {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px !important;
+}
+
+html.light .ant-tooltip-inner {
+    background-color: #1e293b !important;
+    color: white !important;
+    font-size: 12px;
+}
+
+html.light .ant-tooltip-arrow::before {
+    background-color: #1e293b !important;
+}
+
+html.dark .ant-tooltip-inner {
+    background-color: #d2d4da !important;
+    color: #333 !important;
+    font-size: 12px;
+}
+
+html.dark .ant-tooltip-arrow::before {
+    background-color: #d2d4da !important;
+}
+
+.dialog-fade-in {
+    animation: dialogFadeIn 0.3s ease-out;
+}
+
+@keyframes dialogFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
