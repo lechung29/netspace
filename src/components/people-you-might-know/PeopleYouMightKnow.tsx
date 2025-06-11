@@ -7,7 +7,7 @@ import { Button } from "../common";
 const PeopleYouMightKnow: React.FunctionComponent = () => {
     return (
         <div className="w-full h-auto !p-4 !shadow-sm !bg-white dark:!bg-[#1e293b] !rounded-xl">
-            <div className="!text-[14px] dark:!text-white !text-dark font-semibold !mb-4">People you might know</div>
+            <div className="!text-[16px] dark:!text-white !text-dark font-semibold !mb-4">People you might know</div>
             <div className="w-full flex flex-col gap-4">
                 {Array.from({ length: 5 }).map((_, id) => (
                     <div key={id} className="flex !flex-row items-center gap-3">
