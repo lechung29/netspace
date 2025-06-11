@@ -30,7 +30,7 @@ const OnlineFriends: React.FunctionComponent = () => {
                                 dot={true}
                                 key={index}
                                 status="success"
-                                offset={[-5, 35]}
+                                offset={[-5, 34]}
                                 color="green"
                                 styles={{
                                     indicator: {
