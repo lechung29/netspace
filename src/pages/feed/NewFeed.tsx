@@ -1,6 +1,6 @@
 /** @format */
 
-import { CreatePostForm, PeopleYouMightKnow, StoryList } from "@/components";
+import { CreatePostForm, OnlineFriends, PeopleYouMightKnow, StoryList } from "@/components";
 import React from "react";
 
 const NewFeed: React.FunctionComponent = () => {
@@ -18,7 +18,12 @@ const NewFeed: React.FunctionComponent = () => {
                 {/* <div className="w-full h-96 bg-slate-200 dark:bg-slate-700 rounded-lg shadow-md">
                 Hello
             </div> */}
-                <PeopleYouMightKnow />
+                <div className="!mb-4">
+                    <PeopleYouMightKnow />
+                </div>
+                <div className="!mb-4">
+                    <OnlineFriends />
+                </div>
             </div>
         </div>
     );
