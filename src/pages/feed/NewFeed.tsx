@@ -1,6 +1,6 @@
 /** @format */
 
-import { CreatePostForm, OnlineFriends, PeopleYouMightKnow, StoryList } from "@/components";
+import { CreatePostForm, OnlineFriends, PeopleYouMightKnow, StoryList, TrendsForYou } from "@/components";
 import React from "react";
 
 const NewFeed: React.FunctionComponent = () => {
@@ -23,6 +23,9 @@ const NewFeed: React.FunctionComponent = () => {
                 </div>
                 <div className="!mb-4">
                     <OnlineFriends />
+                </div>
+                <div className="!mb-4">
+                    <TrendsForYou />
                 </div>
             </div>
         </div>
