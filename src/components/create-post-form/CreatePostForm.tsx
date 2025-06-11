@@ -8,6 +8,11 @@ import { Button } from "../common";
 import { IoChevronDown } from "react-icons/io5";
 import { classNames } from "@/utils";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import { BsImageFill } from "react-icons/bs";
+import { IoVideocam } from "react-icons/io5";
+import { TbMoodSmileFilled } from "react-icons/tb";
+import { MdPlace } from "react-icons/md";
+import TextArea from "antd/es/input/TextArea";
 
 type IShareWith = "Everyone" | "Friends" | "Only Me";
 
@@ -34,7 +39,7 @@ const CreatePostForm: React.FunctionComponent = () => {
         if (!isOpen) {
             setShareWith(tempShareWith);
         }
-    }
+    };
 
     const handleChangeTempShareWith = (value: IShareWith) => {
         setTempShareWith(value);
@@ -93,13 +98,57 @@ const CreatePostForm: React.FunctionComponent = () => {
                 ReactDOM.createPortal(
                     <div className="fixed inset-0 backdrop-blur-xs bg-black/50 flex items-center justify-center z-50" onClick={handleOverlayClick}>
                         <div className="bg-white dark:bg-[#1e293b] !shadow-lg rounded-md w-11/12 max-w-[560px] min-h-90 relative flex flex-col dialog-fade-in">
-                            <div className="flex items-center justify-between !py-3 !px-4 !border-b !border-gray-200">
+                            <div className="flex items-center justify-between !py-3 !px-4 !border-b !border-gray-200 dark:!border-slate-700">
                                 <div className="flex-1 text-center text-sm">Create status</div>
                                 <div className="!bg-transparent dark:hover:!bg-gray-500 hover:!bg-gray-200  transition-all cursor-pointer !p-1 rounded-full" onClick={() => setIsOpen(false)}>
                                     <IoMdClose className="w-6 h-6 text-[#333] dark:text-white" />
                                 </div>
                             </div>
-                            <div className="flex-1">Hello</div>
+                            <div className="flex-1 !px-4 !py-3">
+                                <TextArea 
+                                    rows={7} 
+                                    placeholder="What do you have in mind?"
+                                    className="custom-textarea !border-0 !bg-transparent focus:!ring-0 placeholder:!text-gray-400 dark:placeholder:!text-gray-200 !text-[#333] dark:!text-white !text-lg"
+                                />
+                            </div>
+                            <div className="flex items-center gap-2 text-sm !py-2 !px-4 font-medium flex-wrap">
+                                <button
+                                    aria-label="Image"
+                                    tabIndex={0}
+                                    type="button"
+                                    className="flex items-center gap-1.5 !bg-sky-50 !text-sky-600 !rounded-full !py-1 !px-2 !border-2 !border-sky-100 dark:!bg-sky-950 dark:!border-sky-900 cursor-pointer"
+                                >
+                                    <BsImageFill className="w-4 h-4" />
+                                    {"Image"}
+                                </button>
+                                <button
+                                    aria-label="Video"
+                                    tabIndex={0}
+                                    type="button"
+                                    className="flex items-center gap-1.5 !bg-teal-50 !text-teal-600 !rounded-full !py-1 !px-2 !border-2 !border-teal-100 dark:!bg-teal-950 dark:!border-teal-900 cursor-pointer"
+                                >
+                                    <IoVideocam className="w-4 h-4" />
+                                    {"Video"}
+                                </button>
+                                <button
+                                    aria-label="Feeling"
+                                    tabIndex={0}
+                                    type="button"
+                                    className="flex items-center gap-1.5 !bg-orange-50 !text-orange-600 !rounded-full !py-1 !px-2 !border-2 !border-orange-100 dark:!bg-yellow-950 dark:!border-yellow-900 cursor-pointer"
+                                >
+                                    <TbMoodSmileFilled className="w-4 h-4" />
+                                    {"Feeling"}
+                                </button>
+                                <button
+                                    aria-label="Check in"
+                                    tabIndex={0}
+                                    type="button"
+                                    className="flex items-center gap-1.5 !bg-red-50 !text-red-600 !rounded-full !py-1 !px-2 !border-2 !border-rose-100 dark:!bg-rose-950 dark:!border-rose-900 cursor-pointer"
+                                >
+                                    <MdPlace className="w-4 h-4" />
+                                    {"Check in"}
+                                </button>
+                            </div>
                             <div className="flex items-center justify-between !py-4 !px-4">
                                 <Popover trigger="click" placement="topLeft" arrow={false} open={isOpenShareWith} onOpenChange={onOpenChangeShareWithMenu} content={shareWithContent}>
                                     <div className="bg-[#f1f5f9] dark:bg-[#334155] w-28 !px-3 !py-1.5 rounded-2xl flex items-center cursor-pointer">
