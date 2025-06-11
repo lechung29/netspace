@@ -83,6 +83,16 @@ html.dark .ant-tooltip-arrow::before {
     animation: dialogFadeIn 0.3s ease-out;
 }
 
+textarea.custom-textarea {
+    overflow: scroll !important;
+    scrollbar-width: none !important;
+    resize: none !important; 
+}
+
+textarea.custom-textarea::-webkit-scrollbar {
+  display: none !important;
+}
+
 @keyframes dialogFadeIn {
     0% {
         opacity: 0;
@@ -93,5 +103,3 @@ html.dark .ant-tooltip-arrow::before {
         transform: scale(1);
     }
 }
-
-
