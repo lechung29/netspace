@@ -6,6 +6,7 @@ import { HiBellAlert } from "react-icons/hi2";
 import { TbMessageFilled } from "react-icons/tb";
 import { Avatar, Button, ButtonProps, Popover, PopoverProps } from "antd";
 import { HeaderCreateContent } from "../header-create-content";
+import UserMenu from "../user-menu/UserMenu";
 
 const HeaderActionBar: React.FunctionComponent = () => {
     const defaultPopoverProperties: Partial<PopoverProps> = {
@@ -29,7 +30,7 @@ const HeaderActionBar: React.FunctionComponent = () => {
             <Popover content={<div className="w-40 h-40 bg-white dark:!bg-[#334155]"></div>} {...defaultPopoverProperties}>
                 <Button {...popoverButtonProperties} icon={<TbMessageFilled className="text-2xl dark:!text-white !text-black" />} />
             </Popover>
-            <Popover content={<div className="w-40 h-40 bg-white dark:!bg-[#334155]"></div>} {...defaultPopoverProperties}>
+            <Popover content={<UserMenu />} {...defaultPopoverProperties}>
                 <Avatar className="cursor-pointer !w-10 !h-10" src={"/src/assets/banner.jpg"} />
             </Popover>
         </div>

@@ -15,3 +15,4 @@ export * from "./people-you-might-know";
 export * from "./create-post-form";
 export * from "./online-friends";
 export * from "./trends-for-you";
+export * from "./user-menu";
